@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@babel/preset-env": "^7.23.9",
+        "@babel/preset-react": "^7.24.7",
         "@emotion/cache": "^11.4.0",
         "@emotion/react": "^11.4.0",
         "@emotion/styled": "^11.3.0",
@@ -52,8 +53,9 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "jest --passWithNoTests",
+        "start-babel": "babel example.js --out-file main.dist.js",
+        "build": "babel src -d lib",
+        "test": "jest",
         "prebuild": "jest",
         "eject": "react-scripts eject",
         "server": "json-server --watch data.json --port 4000"
@@ -68,7 +70,8 @@
     },
     "babel": {
         "presets": [
-            "@babel/preset-env"
+            "@babel/preset-env",
+            "@babel/preset-react"
         ]
     },
     "browserslist": {
@@ -84,7 +87,7 @@
         ]
     },
     "devDependencies": {
-        "@babel/core": "^7.23.9",
+        "@babel/core": "^7.24.7",
         "@babel/eslint-parser": "^7.15.8",
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "eslint": "^7.27.0",
