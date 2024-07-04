@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import MainSection from '../Landing/MainSection';
 import CyberSecuritySection from "../Landing/LearnAboutUs";

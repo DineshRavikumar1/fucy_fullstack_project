@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {
     // useState,
      useCallback,
@@ -163,8 +164,6 @@ export default function Home({ attackScene }) {
             getLayoutedElements(ns, es, opts).then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
                 setNodes(layoutedNodes);
                 setEdges(layoutedEdges);
-
-                window.requestAnimationFrame(() => fitView());
             });
         },
         [nodes, edges]

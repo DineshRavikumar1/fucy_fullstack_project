@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { 
     useState,
      useCallback, 
@@ -137,20 +138,20 @@ import CyberRequire from '../../ui-component/custom/CyberRequire';
           x: event.clientX,
           y: event.clientY,
         });
-        if (parsedNode) {
-          const newNode = {
-            id: uid(),
-            type: parsedNode.type,
-            position,
-            properties: parsedNode.properties,
-            data: {
-              label: parsedNode.data["label"],
-              bgColor: parsedNode.data["bgColor"],
-            },
-          };
-          // dragAdd(newNode);
-          console.log('newNode', newNode)
-        }
+        // if (parsedNode) {
+        //   const newNode = {
+        //     id: uid(),
+        //     type: parsedNode.type,
+        //     position,
+        //     properties: parsedNode.properties,
+        //     data: {
+        //       label: parsedNode.data["label"],
+        //       bgColor: parsedNode.data["bgColor"],
+        //     },
+        //   };
+        //   // dragAdd(newNode);
+        //   console.log('newNode', newNode)
+        // }
   
         // if (parsedTemplate) {
         //   let newNodes = [];

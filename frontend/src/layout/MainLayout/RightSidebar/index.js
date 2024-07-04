@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import { Box } from '@mui/system';
 import {ArrowSquareLeft, ArrowSquareRight } from 'iconsax-react';

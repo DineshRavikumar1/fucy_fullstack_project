@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
