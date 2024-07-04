@@ -2,29 +2,29 @@ import React from 'react';
 import { Handle, NodeResizer, Position } from 'reactflow';
 import CustomHandle from '../CustomGates/CustomHandle';
 
-export default function MicroController({data}) {
-	console.log('data', data)
-    return (
-		<>
-        <NodeResizer  />
-        <div>
-            <CustomHandle type="target" position={Position.Top} style={{ top: '15px', opacity: 0 }} isConnectable={1} />
-            {/* <div>{data?.label}</div> */}
-            <svg
-                version="1.1"
-                id="Layer_1"
-                xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
-                height='150px' 
-                width="100%"
-                viewBox="0 0 624 576"
-            >
-                <path
-                    fill="#000000"
-                    opacity="1.000000"
-                    stroke="none"
-                    d="
+export default function MicroController({ data }) {
+  console.log('data', data);
+  return (
+    <>
+      <NodeResizer />
+      <div>
+        <CustomHandle type="target" position={Position.Top} style={{ top: '15px', opacity: 0 }} isConnectable={1} />
+        {/* <div>{data?.label}</div> */}
+        <svg
+          version="1.1"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          height="150px"
+          width="100%"
+          viewBox="0 0 624 576"
+        >
+          <path
+            fill="#000000"
+            opacity="1.000000"
+            stroke="none"
+            d="
 M207.539459,545.329712 
 	C207.541275,524.044373 207.554459,503.224518 207.564911,482.404633 
 	C207.570023,472.238525 207.599335,462.072266 207.561783,451.906311 
@@ -144,12 +144,13 @@ M470.635162,310.500061
 	C470.544067,419.688812 470.569397,419.672974 470.574921,412.971222 
 	C470.602692,379.147522 470.616211,345.323792 470.635162,310.500061 
 z"
-                />
-                <text x="200" y="255" style={{fontSize:'3rem', textShadow:'none',maxWidth:'100px'}} >{data?.label}</text>
-            </svg>
-            <Handle 
-			type="source" position={Position.Bottom} style={{ bottom: '10px', opacity: 0 }} />
-        </div>
-		</>
-    );
+          />
+          <text x="200" y="255" style={{ fontSize: '3rem', textShadow: 'none', maxWidth: '100px' }}>
+            {data?.label}
+          </text>
+        </svg>
+        <Handle type="source" position={Position.Bottom} style={{ bottom: '10px', opacity: 0 }} />
+      </div>
+    </>
+  );
 }

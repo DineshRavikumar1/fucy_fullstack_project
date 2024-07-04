@@ -3,17 +3,17 @@ import { Handle, NodeResizer, Position } from 'reactflow';
 import CustomHandle from '../CustomGates/CustomHandle';
 
 export default function Memory() {
-    return (
-        <>
-            <NodeResizer />
-            <div>
-                <CustomHandle type="target" position={Position.Top} style={{ top: '15px', opacity: 0 }} isConnectable={1} />
-                <svg version="1.1" id="Layer_1" x="0px" y="0px" height="150px" width="100%" viewBox="0 0 352 368">
-                    <path
-                        fill="#000000"
-                        opacity="1.000000"
-                        stroke="none"
-                        d="
+  return (
+    <>
+      <NodeResizer />
+      <div>
+        <CustomHandle type="target" position={Position.Top} style={{ top: '15px', opacity: 0 }} isConnectable={1} />
+        <svg version="1.1" id="Layer_1" x="0px" y="0px" height="150px" width="100%" viewBox="0 0 352 368">
+          <path
+            fill="#000000"
+            opacity="1.000000"
+            stroke="none"
+            d="
 M176.963348,311.971375 
 	C172.637619,311.962799 168.803284,312.024231 164.973312,311.922241 
 	C161.604675,311.832550 160.236847,313.224762 160.293457,316.696045 
@@ -128,10 +128,10 @@ M186.500000,69.200493
 	C258.897247,77.321396 250.996277,69.293747 236.998856,69.224358 
 	C220.499603,69.142563 203.999634,69.202675 186.500000,69.200493 
 z"
-                    />
-                </svg>
-                <Handle type="source" position={Position.Bottom} style={{ bottom: '10px', opacity: 0 }} />
-            </div>
-        </>
-    );
+          />
+        </svg>
+        <Handle type="source" position={Position.Bottom} style={{ bottom: '10px', opacity: 0 }} />
+      </div>
+    </>
+  );
 }
