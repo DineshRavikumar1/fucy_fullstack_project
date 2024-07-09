@@ -106,7 +106,7 @@ const selector = (state) => ({
 });
 
 //Edge line styling
-const connectionLineStyle = { stroke: 'black' };
+const connectionLineStyle = { stroke: 'grey' };
 const edgeOptions = {
     type: 'step',
     markerEnd: {
