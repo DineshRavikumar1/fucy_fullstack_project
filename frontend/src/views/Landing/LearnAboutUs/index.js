@@ -30,10 +30,10 @@ export default function CyberSecuritySection() {
   return (
     <Box>
       <Grid container sx={{ my: 8, px: 8 }} display="flex" justifyContent="space-evenly">
-        <Grid item lg={6}>
-          <Box component="img" src={ideas} alt="Cybersecurity Innovation" sx={{ width: '600px', height: '400px', borderRadius: 2 }} />
+        <Grid item xs={12} md={6} lg={6}>
+          <Box component="img" src={ideas} alt="Cybersecurity Innovation" sx={{ width: '100%', height: '100%', borderRadius: 2 }} />
         </Grid>
-        <Grid item lg={5} md={4}>
+        <Grid item lg={5} md={4} xs={12}>
           <Box className={classes.content}>
             <Typography variant="h3" component="h1" gutterBottom fontSize={50} fontWeight={700}>
               The Next Big Step in Cybersecurity Innovation
