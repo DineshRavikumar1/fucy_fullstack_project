@@ -11,3 +11,4 @@ jsonify==0.5
 MarkupSafe==2.1.5
 pymongo==4.7.3
 Werkzeug==3.0.3
+waitress
