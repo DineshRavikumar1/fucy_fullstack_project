@@ -3,13 +3,13 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3001:5000"
+      - "3000:3000"
     depends_on:
       - backend
 
   backend:
     build: ./backend
     ports:
-      - "5000:5100"
+      - "5000:5000"
     environment:
       - FLASK_ENV=development
