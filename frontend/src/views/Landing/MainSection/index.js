@@ -49,10 +49,16 @@ const useStyles = makeStyles((theme) => ({
   typo: {
     fontSize: 70,
     [theme.breakpoints.down('lg')]: {
-      fontSize: 60
+      fontSize: 50
     },
     [theme.breakpoints.down('md')]: {
-      fontSize: 50
+      fontSize: 40
+    }
+  },
+  head: {
+    fontSize: 50,
+    [theme.breakpoints.down('lg')]: {
+      fontSize: 40
     }
   },
   mainText: {
@@ -93,7 +99,7 @@ export default function MainSection() {
         </Box>
       </Box>
       <Container className={classes.footer}>
-        <Typography color="white" variant="h6" textAlign="center" fontSize={50}>
+        <Typography color="white" variant="h6" textAlign="center" className={classes.head}>
           A CSMS dedicated to automotive cybersecurity
         </Typography>
       </Container>

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   drawerlistItem: {
-    margin: '5px 15px',
+    margin: '9px 15px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'

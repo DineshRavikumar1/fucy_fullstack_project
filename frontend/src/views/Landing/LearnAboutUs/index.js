@@ -27,7 +27,12 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     fontSize: 23,
     padding: '8px 20px',
-    width: 'fit-content'
+    width: 'fit-content',
+    '&:hover': {
+      backgroundColor: 'white',
+      color: 'black',
+      boxShadow: '0px 0px 5px gray'
+    }
   }
 }));
 
@@ -54,8 +59,8 @@ export default function CyberSecuritySection() {
         </Grid>
       </Grid>
       <Container className={classes.footer}>
-        <Typography color="white" variant="h6" textAlign="center" fontSize={50}>
-          Automotive cybersecurity compliance made simple
+        <Typography color="white" variant="h6" textAlign="center" className={classes.head}>
+          Automotive cybersecurity compliance made simple .
         </Typography>
       </Container>
     </Box>
