@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Button, Box, Typography, useMediaQuery } from '@mui/material';
+import { Container, Button, Box, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,14 +30,31 @@ const useStyles = makeStyles((theme) => ({
   },
   mainContent: {
     color: 'white',
-    padding: theme.spacing(8, 0, 6),
     position: 'relative',
-    zIndex: 2
+    zIndex: 2,
+    display: 'flex',
+    height: 'inherit',
+    margin: 'auto 25svh',
+    [theme.breakpoints.down('lg')]: {
+      margin: 'auto 15svh'
+    },
+    [theme.breakpoints.down('md')]: {
+      margin: 'auto 5svh'
+    }
   },
   content: {
-    borderLeft: '2px solid #f5f5f5'
+    borderLeft: '2px solid #f5f5f5',
+    alignSelf: 'center'
   },
-
+  typo: {
+    fontSize: 70,
+    [theme.breakpoints.down('lg')]: {
+      fontSize: 60
+    },
+    [theme.breakpoints.down('md')]: {
+      fontSize: 50
+    }
+  },
   mainText: {
     marginTop: theme.spacing(4)
   },
@@ -56,15 +73,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MainSection() {
   const classes = useStyles();
-  const isMobile = useMediaQuery('(max-width:600px)');
-
   return (
     <div className={classes.root}>
       <Box className={classes.box}>
-        <Box className={classes.mainContent} mx={!isMobile ?'25svh':'2svh'}>
-          <Box className={classes.content} mt={10} lg={12} md={12}>
+        <Box className={classes.mainContent}>
+          <Box className={classes.content} lg={12} md={12}>
             <Box ml={2}>
-              <Typography variant="h2" textAlign="left" gutterBottom color="inherit" fontSize={!isMobile ? 70 :50}>
+              <Typography className={classes.typo} variant="h2" textAlign="left" gutterBottom color="inherit">
                 Cyber Security Management System
               </Typography>
               <Typography variant="h5" textAlign="left" paragraph color="inherit" fontSize={20}>

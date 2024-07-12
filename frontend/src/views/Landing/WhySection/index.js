@@ -4,21 +4,24 @@ import CircleFeature from './CircleFeature';
 import scale from '../../../assets/images/icons/scale.png';
 import pieChart from '../../../assets/images/icons/pie-chart.png';
 import settings from '../../../assets/images/icons/settings.png';
+import { makeStyles } from '@mui/styles';
 
+const useStyles = makeStyles((theme) => ({
+  head: {
+    borderBottom: '1px solid black',
+    pb: 3,
+    fontSize: 40,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20,
+      textAlign: 'center'
+    }
+  }
+}));
 export default function WhyComponent() {
+  const classes = useStyles();
   return (
-    <Box sx={{ height: { lg: '80svh', padding: '2rem 10rem' } }}>
-      <Typography
-        variant="h3"
-        align="left"
-        gutterBottom
-        sx={{
-          borderBottom: '1px solid black',
-          pb: 3
-        }}
-        fontSize={45}
-        fontWeight={700}
-      >
+    <Box sx={{ height: { lg: '80svh' } }}>
+      <Typography variant="h3" align="left" gutterBottom className={classes.head} fontWeight={700} mx={10} my={2}>
         Why Fucy Tech?
       </Typography>
       <Box
@@ -30,6 +33,7 @@ export default function WhyComponent() {
           gap: 2,
           marginTop: 4
         }}
+        mx={8}
       >
         <CircleFeature
           icon={scale}

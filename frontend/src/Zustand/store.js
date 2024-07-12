@@ -227,7 +227,7 @@ const useStore = createWithEqualityFn((set, get) => ({
   },
 
   getSidebarNode: async () => {
-    const res = await axios.get(`${configuration.apiBaseUrl}sidebarNode2`);
+    const res = await axios.get(`${configuration.apiBaseUrl}sidebarNode`);
     set({
       sidebarNodes: res.data
     });
@@ -280,6 +280,10 @@ const useStore = createWithEqualityFn((set, get) => ({
   },
 
   //Update Section
+  updateSidebarNodes: async (newTemplate) => {
+    const res = await axios.patch(`${configuration.apiBaseUrl}sidebarNode/${newTemplate.id}`, newTemplate);
+    return res;
+  },
 
   updateTemplate: async (newTemplate) => {
     const res = await axios.patch(`${configuration.apiBaseUrl}template/${newTemplate.id}`, newTemplate);
@@ -318,6 +322,10 @@ const useStore = createWithEqualityFn((set, get) => ({
     console.log('res', res);
   },
 
+  createNewComponentLibrary: async (newTemplate) => {
+    const res = await axios.post(`${configuration.apiBaseUrl}sidebarNode`, newTemplate);
+    return res;
+  },
   addTemplate: async (newTemplate) => {
     try {
       const res = await axios.post(`${configuration.apiBaseUrl}template`, newTemplate);

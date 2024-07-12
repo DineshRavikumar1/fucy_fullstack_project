@@ -10,6 +10,7 @@ import { makeStyles } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCanvasPage } from '../../../store/slices/CanvasSlice';
 import ColorTheme from '../../../store/ColorTheme';
+import { textAlign } from '@mui/system';
 
 const services = [
   'TARA Automation',
@@ -32,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     fontSize: '25px',
-    fontFamily: 'Inter'
+    fontFamily: 'Inter',
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center'
+    }
   },
   navlink: {
     textDecoration: 'none',
@@ -48,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '5px 15px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between' ,
+    justifyContent: 'space-between'
   },
   dropdown: {
     color: 'white',
@@ -62,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     gap: 25,
     marginRight: 40,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'none'
     }
   },
@@ -73,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   drawerPaper: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)', // semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.7)' // semi-transparent background
   },
   drawerList: {
     width: 250
@@ -83,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
   closeButton: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
     // padding: theme.spacing(1),
   }
 }));
@@ -128,16 +132,18 @@ export default function Header() {
           <React.Fragment key={index}>
             {!link.dropdown ? (
               <ListItem button component={NavLink} to={link.path} className={classes.listItem}>
-                <ListItemText primary={link.name}
+                <ListItemText
+                  primary={link.name}
                   sx={{
                     '& .MuiTypography-root': {
-                    color:'white'
-                  }
-                }}/>
+                      color: 'white'
+                    }
+                  }}
+                />
               </ListItem>
             ) : (
               <>
-                 <Box key={index} className={classes.listItem} >
+                <Box key={index} className={classes.listItem}>
                   <Typography onClick={handleClick} className={classes.drawerlistItem}>
                     {link.name} {menuOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                   </Typography>
@@ -149,7 +155,6 @@ export default function Header() {
                     ))}
                   </Menu>
                 </Box>
-                
               </>
             )}
           </React.Fragment>
@@ -160,10 +165,7 @@ export default function Header() {
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        style={{ background: pageName === 'home' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.9)' }}
-      >
+      <AppBar position="fixed" style={{ background: pageName === 'home' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.9)' }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />
@@ -172,7 +174,7 @@ export default function Header() {
             FUCY TECH
           </Typography>
           <Box className={classes.links}>
-            {links.map((link, index) => (
+            {links.map((link, index) =>
               !link.dropdown ? (
                 <NavLink key={index} className={classes.navlink} to={link.path}>
                   {link.name}
@@ -191,16 +193,11 @@ export default function Header() {
                   </Menu>
                 </Box>
               )
-            ))}
+            )}
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-        classes={{ paper: classes.drawerPaper }}
-      >
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)} classes={{ paper: classes.drawerPaper }}>
         {drawer}
       </Drawer>
     </>

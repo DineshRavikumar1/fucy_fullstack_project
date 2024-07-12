@@ -37,7 +37,8 @@ const CustomGroupNode = ({ data, id }) => {
           marginTop: '1rem',
           textAlign: 'center',
           border: 'none',
-          background: 'transparent'
+          background: 'transparent',
+          outline: 'none'
         }}
       />
 

@@ -44,16 +44,6 @@ iframe#webpack-dev-server-client-overlay {
   height: 96% !important;
 }
 
-.react-flow__node-group {
-  min-width: 300px;
-  min-height: 300px;
-  width: inherit;
-  height: 350px;
-  align-items: flex-start;
-  border: 3px solid darkgray !important;
-  display: flex;
-}
-
 .react-flow__node {
   padding: 0 !important;
   color: white;
@@ -67,6 +57,16 @@ iframe#webpack-dev-server-client-overlay {
   height: initial;
   width: initial;
 }
+.react-flow__node-group {
+  border: 3px solid darkgray !important;
+  min-width: 300px;
+  min-height: 300px;
+  width: inherit;
+  /* height: 350px; */
+  align-items: flex-start;
+  display: flex;
+}
+
 .selected {
   /* border: 2px solid black !important; */
   border-radius: 5px !important;
