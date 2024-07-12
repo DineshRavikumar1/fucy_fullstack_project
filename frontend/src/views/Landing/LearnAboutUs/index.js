@@ -10,6 +10,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4),
     maxWidth: 'inherit'
   },
+  head: {
+    fontSize: 50,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 40
+    }
+  },
   content: {
     // width:'auto'
     display: 'flex',
@@ -35,7 +41,7 @@ export default function CyberSecuritySection() {
         </Grid>
         <Grid item lg={5} md={4} xs={12}>
           <Box className={classes.content}>
-            <Typography variant="h3" component="h1" gutterBottom fontSize={50} fontWeight={700}>
+            <Typography variant="h3" component="h1" className={classes.head} gutterBottom fontWeight={700}>
               The Next Big Step in Cybersecurity Innovation
             </Typography>
             <Typography variant="body1" paragraph fontSize={20} sx={{ textWrap: 'balance', mx: 1 }}>
