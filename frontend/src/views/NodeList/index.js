@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import useStore from '../../Zustand/store';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
     boxShadow: '0px 0px 4px 2px #90caf9'
   }
 }));
+
 const selector = (state) => ({
   sidebarNodes: state.sidebarNodes,
   getSidebarNode: state.getSidebarNode,
@@ -40,20 +41,18 @@ const Components = () => {
   const { sidebarNodes, getSidebarNode, getComponent } = useStore(selector);
   const color = ColorTheme();
 
-  const handleOnLeave = (event) => {
-    if (anchorEl && anchorEl.contains(event.target)) {
-      return;
-    }
-    setHoveredItem(null);
-    setOpenModal(false);
-    setAnchorEl(null);
-  };
-
   const [hoveredItem, setHoveredItem] = useState(null);
+
   const handleMouseEnter = (event, item) => {
     setHoveredItem(item);
     setAnchorEl(event.currentTarget);
     setOpenModal(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
+    setOpenModal(false);
+    setAnchorEl(null);
   };
 
   const onDragStart = (event, item) => {
@@ -63,7 +62,6 @@ const Components = () => {
   };
 
   useEffect(() => {
-    getSidebarNode();
     getComponent();
   }, []);
 
@@ -78,12 +76,10 @@ const Components = () => {
   };
 
   function stringAvatar(name) {
-    if (name.split(' ')[1]) {
-      return { children: `${name.split(' ')[0][0].toUpperCase()}${name.split(' ')[1][0].toUpperCase()}` };
-    }
-    return {
-      children: `${name.split(' ')[0][0].toUpperCase()}`
-    };
+    const nameParts = name.split(' ');
+    const initials =
+      nameParts.length > 1 ? `${nameParts[0][0].toUpperCase()}${nameParts[1][0].toUpperCase()}` : `${nameParts[0][0].toUpperCase()}`;
+    return { children: initials };
   }
 
   return (
@@ -94,7 +90,15 @@ const Components = () => {
         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, overflowX: 'hidden' }}
       >
         {sidebarNodes?.map((item, i) => (
-          <Box key={i} display="flex" flexDirection="column" alignItems="center" gap={1} onMouseEnter={(e) => handleMouseEnter(e, item)}>
+          <Box
+            key={i}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={1}
+            onMouseEnter={(e) => handleMouseEnter(e, item)}
+            onMouseLeave={handleMouseLeave}
+          >
             <Avatar {...stringAvatar(item?.name)} variant="rounded" sx={{ width: 56, height: 56 }} />
             <Typography variant="h6" color={'#1d97fc'}>
               {item?.name}
@@ -107,11 +111,11 @@ const Components = () => {
                     transformOrigin: 'left top'
                   }}
                 >
-                  <Paper onMouseLeave={handleOnLeave} sx={{ backgroundColor: color?.leftbarBG }} className={classes?.paper}>
-                    <ClickAwayListener onClickAway={handleOnLeave}>
+                  <Paper onMouseLeave={handleMouseLeave} sx={{ backgroundColor: color?.leftbarBG }} className={classes?.paper}>
+                    <ClickAwayListener onClickAway={handleMouseLeave}>
                       <MenuList autoFocusItem={openModal}>
                         {item?.nodes?.map((node) => (
-                          <MenuItem draggable onDragStart={(event) => onDragStart(event, node)} key={node?.id} onClick={handleOnLeave}>
+                          <MenuItem draggable onDragStart={(event) => onDragStart(event, node)} key={node?.id} onClick={handleMouseLeave}>
                             {node?.data['label']}
                           </MenuItem>
                         ))}

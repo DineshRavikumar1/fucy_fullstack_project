@@ -77,8 +77,6 @@ const getLayoutedElements = (nodes, edges, options = {}) => {
     .then((layoutedGraph) => ({
       nodes: layoutedGraph.children.map((node) => ({
         ...node,
-        // React Flow expects a position property on the node instead of `x`
-        // and `y` fields.
         position: { x: node.x, y: node.y }
       })),
 
@@ -115,12 +113,6 @@ const edgeOptions = {
     height: 20,
     color: 'black'
   },
-  // markerStart: {
-  //   type: MarkerType.ArrowClosed,
-  //   width: 20,
-  //   height: 20,
-  //   color: "#FF0072",
-  // },
   animated: false,
   style: {
     stroke: 'grey'
@@ -160,13 +152,11 @@ export default function MainCanvas() {
     modal,
     getModals,
     updateModal,
-    getIntersectingNodes,
-    getGroupedNodes
+    getIntersectingNodes
   } = useStore(selector, shallow);
   const { id } = useParams();
   const dispatch = useDispatch();
   const Color = ColorTheme();
-  // const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [openTemplate, setOpenTemplate] = useState(false);
   const [savedTemplate, setSavedTemplate] = useState({});
@@ -177,6 +167,7 @@ export default function MainCanvas() {
   const dragRef = useRef(null);
   const [groupList, setGroupList] = useState([]);
 
+  // console.log('modal', modal);
   useEffect(() => {
     getModalById(id);
   }, [id]);
@@ -190,7 +181,6 @@ export default function MainCanvas() {
     }, 100);
   }, [modal]);
 
-  // const [target, setTarget] = useState(null);
   const {
     isDsTableOpen,
     isTsTableOpen,
@@ -220,7 +210,6 @@ export default function MainCanvas() {
 
   const checkForNodes = () => {
     const [intersectingNodesMap, nodes] = getIntersectingNodes();
-    // console.log('intersectingNodesMap', intersectingNodesMap);
     let values = Object.values(intersectingNodesMap).flat();
 
     let updated = nodes.map((item1) => {
@@ -272,7 +261,6 @@ export default function MainCanvas() {
     setNodes(updatedNodes);
   };
 
-  // console.log('savedTemplate', savedTemplate);
   //for downloading the circuit and image
   function downloadImage(dataUrl) {
     const a = document.createElement('a');
@@ -307,7 +295,6 @@ export default function MainCanvas() {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
-  // console.log('nodes', nodes);
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
@@ -320,11 +307,6 @@ export default function MainCanvas() {
       } else {
         parsedTemplate = JSON.parse(template);
       }
-
-      // if (typeof parsedNode === "undefined" || !parsedNode || typeof parsedTemplate === "undefined" || !parsedTemplate) {
-      //   return;
-      // }
-
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY
@@ -413,15 +395,7 @@ export default function MainCanvas() {
     setOpenTemplate(false);
   };
 
-  // const onSave = useCallback(() => {
-  //     if (reactFlowInstance) {
-  //         const flow = reactFlowInstance.toObject();
-  //         localStorage.setItem(flowKey, JSON.stringify(flow));
-  //     }
-  // }, [reactFlowInstance]);
-
   const onSaveInitial = useCallback((temp) => {
-    // console.log('temp', temp);
     localStorage.removeItem(flowKey);
     if (temp) {
       localStorage.setItem(flowKey, JSON.stringify(temp));
@@ -431,7 +405,6 @@ export default function MainCanvas() {
   const onRestore = useCallback(
     (temp) => {
       if (temp) {
-        // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
         setNodes(temp.nodes);
         setEdges(temp.edges);
       } else {
@@ -445,16 +418,9 @@ export default function MainCanvas() {
     setNodes([]);
     setEdges([]);
   };
-  // const handleSave = () => {
-  //     setOpenTemplate(true);
-  //     onSave();
-  //     onRestore();
-  // };
 
   const handleSaveToModal = () => {
     let mod = { ...modal };
-    // console.log('mod', mod);
-    // console.log('nodes', nodes);
 
     let Derivations = nodes
       ?.filter((nd) => nd?.type !== 'group')
@@ -615,7 +581,6 @@ export default function MainCanvas() {
       }
     ];
 
-    // console.log('mod', mod)
     updateModal(mod)
       .then((res) => {
         if (res) {
@@ -623,7 +588,6 @@ export default function MainCanvas() {
             setOpen(true);
             setMessage('Saved Successfully');
             setSuccess(true);
-            // window.location.reload();
             handleClose();
             getModals();
           }, 500);
@@ -644,6 +608,9 @@ export default function MainCanvas() {
   const onLoad = (reactFlowInstance) => reactFlowInstance.current;
 
   const handleSidebarOpen = (e, node) => {
+    console.log('e', e);
+    console.log('node', node);
+    e.preventDefault();
     if (node.type !== 'group') {
       setSelectedNode(node);
       toggleDrawerOpen('MainCanvasTab');
@@ -669,19 +636,12 @@ export default function MainCanvas() {
       } else {
         addNodeToArray(node);
       }
-      // console.log('grp', grp)
       setGroupList(grp);
     }
   };
 
-  // console.log('groupList', groupList)
-
   const createGroup = (e) => {
     e.preventDefault();
-
-    // if (groupList.length) {
-    //     const [intersectingNodesMap, nodes] = getGroupedNodes();
-    // } else {
     const newNode = {
       id: uid(),
       type: 'group',
@@ -696,10 +656,9 @@ export default function MainCanvas() {
       }
     };
     dragAdd(newNode);
-    // }
   };
 
-  console.log('nodes', nodes);
+  // console.log('nodes', nodes);
   if (isDsTableOpen) return <DsTable />;
   if (isDerivationTableOpen) return <DsDerivationTable />;
   if (isTsTableOpen) return <Tstable />;
@@ -709,7 +668,7 @@ export default function MainCanvas() {
 
   return (
     <>
-      <div style={{ width: '100%', height: '100%', border: '1px solid', background: 'white' }}>
+      <div style={{ width: '100%', height: '100%', boxShadow: '0px 0px 5px gray', background: 'white' }}>
         <Header
           selectedNode={selectedNode}
           nodes={nodes}
@@ -720,6 +679,7 @@ export default function MainCanvas() {
           handleClear={handleClear}
           handleSave={handleSaveToModal}
           download={handleDownload}
+          createGroup={createGroup}
         />
         <ReactFlowProvider>
           <ReactFlow
@@ -740,9 +700,10 @@ export default function MainCanvas() {
             onDrop={onDrop}
             onDragOver={onDragOver}
             fitView
-            onNodeDoubleClick={handleSidebarOpen}
+            // onNodeDoubleClick={handleSidebarOpen}
             onNodeClick={handleSelectNode}
-            onContextMenu={createGroup}
+            // onContextMenu={createGroup}
+            onNodeContextMenu={handleSidebarOpen}
           >
             <Controls />
             <MiniMap zoomable pannable style={{ background: Color.canvasBG }} />

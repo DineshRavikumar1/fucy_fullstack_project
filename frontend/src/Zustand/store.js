@@ -220,9 +220,18 @@ const useStore = createWithEqualityFn((set, get) => ({
 
   //fetch or GET section
   fetchAPI: async () => {
-    const res = await axios.get(`${configuration.apiBaseUrl}template`);
+    // const res = await axios.get(`${configuration.apiBaseUrl}template`);
+    const res = await axios.get(`${configuration?.backendUrl}/get_details/templates`);
     set({
       template: res.data
+    });
+  },
+
+  getComponent: async () => {
+    const res = await axios.post(`${configuration.backendUrl}get_details/sidebarNode`);
+    // console.log('res', res);
+    set({
+      sidebarNodes: res.data
     });
   },
 
@@ -243,7 +252,8 @@ const useStore = createWithEqualityFn((set, get) => ({
   },
 
   getModals: async () => {
-    const res = await axios.get(`${configuration.apiBaseUrl}Modals`);
+    // const res = await axios.get(`${configuration.apiBaseUrl}Modals`);
+    const res = await axios.get(`${configuration.backendUrl}get_details/Models`);
     set({
       Modals: res.data
     });
@@ -251,7 +261,9 @@ const useStore = createWithEqualityFn((set, get) => ({
 
   getModalById: async (id) => {
     if (id) {
-      const res = await axios.get(`${configuration.apiBaseUrl}Modals/${id}`);
+      // const res = await axios.get(`${configuration.apiBaseUrl}Modals/${id}`);
+      const res = await axios.get(`${configuration.backendUrl}get_details/Models/${id}`);
+
       // console.log('res.data ...', res.data);
       set({
         modal: res.data
@@ -271,14 +283,6 @@ const useStore = createWithEqualityFn((set, get) => ({
     });
   },
 
-  getComponent: async () => {
-    const res = await axios.get(`${configuration.backendUrl}getComponent`);
-    console.log('res', res);
-    // set({
-    //   component:res.data,
-    // })
-  },
-
   //Update Section
   updateSidebarNodes: async (newTemplate) => {
     const res = await axios.patch(`${configuration.apiBaseUrl}sidebarNode/${newTemplate.id}`, newTemplate);
@@ -292,8 +296,10 @@ const useStore = createWithEqualityFn((set, get) => ({
 
   updateModal: async (newModal) => {
     console.log('newModal', newModal);
-    const res = await axios.patch(`${configuration.apiBaseUrl}Modals/${newModal?.id}`, newModal);
-    console.log('res', res);
+    // const res = await axios.patch(`${configuration.apiBaseUrl}Modals/${newModal?.id}`, newModal);
+    const res = await axios.put(`${configuration.backendUrl}update_model/${newModal?._id}`, newModal);
+
+    // console.log('res', res);
     if (res) {
       // alert('Updated');
       // window.location.reload();
@@ -318,7 +324,7 @@ const useStore = createWithEqualityFn((set, get) => ({
 
   createComponent: async (newTemplate) => {
     // const res = await axios.post(`${configuration.backendUrl}createComponent`,newTemplate)
-    const res = await axios.post(`${configuration.backendUrl}createComponent`, newTemplate);
+    const res = await axios.post(`${configuration.backendUrl}add/sidebarNode`, newTemplate);
     console.log('res', res);
   },
 

@@ -3,9 +3,16 @@ from flask import request,jsonify,json
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
+from bson import ObjectId
+
+
 
 clientMongo = MongoClient('mongodb://localhost:27017')
 db = clientMongo['MY_DB']
+
+@app.route('/', methods=['GET'])
+def hello():
+    return "Hello world"
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -95,12 +102,79 @@ def sideBarNode():
     
     return jsonify(data)
 
-@app.route('/get_details/templates', methods=['POST'])
+@app.route('/get_details/templates', methods=['GET'])
 def tepmlet():
     data = list(db.templates.find({}))
     for item in data:
         item['_id'] = str(item['_id'])
     return jsonify(data)
+
+@app.route('/get_details/Models', methods=['GET'])
+def Modelslet():
+    data = list(db.models.find({}))
+    for item in data:
+        item['_id'] = str(item['_id'])
+    return jsonify(data)
+
+@app.route('/get_details/Models/<model_id>', methods=['GET'])
+def get_model_by_id(model_id):
+    try:
+        # Convert string id to ObjectId
+        model_id = ObjectId(model_id)
+    except Exception as e:
+        return jsonify({"error": "Invalid ID format"}), 400
+
+    # Fetch the model from the database
+    data = db.models.find_one({"_id": model_id})
+    if data:
+        # Convert ObjectId to string
+        data['_id'] = str(data['_id'])
+        return jsonify(data)
+    else:
+        return jsonify({"error": "Model not found"}), 404
+    
+@app.route('/get_details/templates/<template_id>', methods=['GET'])
+def get_template_by_id(template_id):
+    try:
+        # Convert string id to ObjectId
+        template_id = ObjectId(template_id)
+    except Exception as e:
+        return jsonify({"error": "Invalid ID format"}), 400
+
+    # Fetch the model from the database
+    data = db.templates.find_one({"_id": template_id})
+    if data:
+        # Convert ObjectId to string
+        data['_id'] = str(data['_id'])
+        return jsonify(data)
+    else:
+        return jsonify({"error": "Model not found"}), 404
+    
+
+@app.route('/update_model/<model_id>', methods=['PUT'])
+def update_model(model_id):
+    try:
+        model_id = ObjectId(model_id)
+    except Exception as e:
+        return jsonify({"error": "Invalid ID format"}), 400
+
+    # Get the data from the request
+    updated_data = request.json
+
+    # Remove the _id field from the update data if it exists
+    if '_id' in updated_data:
+        del updated_data['_id']
+
+    # Update the model in the database
+    result = db.models.update_one({"_id": model_id}, {"$set": updated_data})
+
+    if result.matched_count > 0:
+        if result.modified_count > 0:
+            return jsonify({"message": "Model updated successfully"})
+        else:
+            return jsonify({"message": "No changes made to the model"}), 304
+    else:
+        return jsonify({"error": "Model not found"}), 404
 
 @app.route('/add/sidebarNode', methods=['POST'])
 def addSideBarNode():
@@ -128,3 +202,15 @@ def addTemplets():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+@app.route('/add/Models', methods=['POST'])
+def addModelslets():
+    try:
+        data = request.form.get('models')
+        new=json.loads(data)
+        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
+        # if not isinstance(data, list):
+        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
+        db.templets.insert_many(new)  
+        return jsonify({"message": "Templates inserted successfully!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

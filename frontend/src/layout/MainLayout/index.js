@@ -27,138 +27,138 @@ import FadeInDiv from '../../ui-component/FadeInDiv';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open, isclose, color }) => {
-    // console.log('color', color)
-    // console.log('isclose', isclose)
-    return({
-        ...theme.typography.mainContent,
-        background: color?.canvaSurroundsBG,
-        border: '1px solid gray',
-        maxWidth: 'auto',
-        marginTop: isclose == true ? '0px': navbarHeight ,
-        // minHeight:'inherit',
-        minHeight: isclose == true ? `100svh` : `80svh`,
-        // height:!isNavbarClose ? `80svh`:`auto`,
-        marginRight: 0,
-        ...(!open && {
-            borderRadius: 0,
-            // borderBottomRightRadius: 0,
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen
-            }),
-            [theme.breakpoints.up('md')]: {
-                marginLeft: -drawerWidth,
-                width: `calc(100% - ${drawerWidth}px)`
-            },
-            [theme.breakpoints.down('md')]: {
-                // marginLeft: '20px',
-                width: `calc(100% - ${drawerWidth}px)`,
-                padding: '16px'
-            },
-            [theme.breakpoints.down('sm')]: {
-                marginLeft: '10px',
-                width: `calc(100% - ${drawerWidth}px)`,
-                padding: '16px',
-                marginRight: '10px'
-            }
-        }),
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen
-            }),
-            marginLeft: 0,
-            // borderBottomLeftRadius: 0,
-            // borderBottomRightRadius: 0,
-            borderRadius: 0,
-            width: `calc(100% - ${drawerWidth}px)`,
-            [theme.breakpoints.down('md')]: {
-                marginLeft: '20px'
-            },
-            [theme.breakpoints.down('sm')]: {
-                marginLeft: '10px'
-            }
-        })
+  // console.log('color', color)
+  // console.log('isclose', isclose)
+  return {
+    ...theme.typography.mainContent,
+    background: color?.canvaSurroundsBG,
+    // border: '1px solid gray',
+    maxWidth: 'auto',
+    marginTop: isclose == true ? '0px' : navbarHeight,
+    // minHeight:'inherit',
+    minHeight: isclose == true ? `100svh` : `80svh`,
+    // height:!isNavbarClose ? `80svh`:`auto`,
+    marginRight: 0,
+    ...(!open && {
+      borderRadius: 0,
+      // borderBottomRightRadius: 0,
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      [theme.breakpoints.up('md')]: {
+        marginLeft: -drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`
+      },
+      [theme.breakpoints.down('md')]: {
+        // marginLeft: '20px',
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: '16px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '10px',
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: '16px',
+        marginRight: '10px'
+      }
+    }),
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      }),
+      marginLeft: 0,
+      // borderBottomLeftRadius: 0,
+      // borderBottomRightRadius: 0,
+      borderRadius: 0,
+      width: `calc(100% - ${drawerWidth}px)`,
+      [theme.breakpoints.down('md')]: {
+        marginLeft: '20px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '10px'
+      }
     })
-})
+  };
+});
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = ({ children }) => {
-    const color = ColorTheme();
-    // console.log('color main', color)
-    const theme = useTheme();
-    const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
+  const color = ColorTheme();
+  // console.log('color main', color)
+  const theme = useTheme();
+  const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
-    // Handle left drawer
-    const leftDrawerOpened = useSelector((state) => state?.customization?.opened);
-    const { isNavbarClose, isDark } = useSelector((state) => state?.currentId);
-    const { isCanvasPage } = useSelector((state) => state?.canvas);
+  // Handle left drawer
+  const leftDrawerOpened = useSelector((state) => state?.customization?.opened);
+  const { isNavbarClose, isDark } = useSelector((state) => state?.currentId);
+  const { isCanvasPage } = useSelector((state) => state?.canvas);
 
-    useEffect(() => {
-        dispatch({ type: SET_MENU, opened: !matchDownMd });
-    }, [matchDownMd]);
+  useEffect(() => {
+    dispatch({ type: SET_MENU, opened: !matchDownMd });
+  }, [matchDownMd]);
 
-    const dispatch = useDispatch();
-    const handleLeftDrawerToggle = () => {
-        dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-    };
+  const dispatch = useDispatch();
+  const handleLeftDrawerToggle = () => {
+    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
+  };
 
-    if (isCanvasPage === 'home')
-        return <>
-            <Box>
-                <HeaderSection />
-                <Box>
-                    <FadeInDiv>
-                        {children}
-                        <Outlet />
-                    </FadeInDiv>
-                </Box>
-                <Footer />
-            </Box>
-            </>
-
+  if (isCanvasPage === 'home')
     return (
-        <>
-            <Box sx={{ display: 'flex', height: '80svh' }}>
-                <CssBaseline />
-                {/* header */}
-                <AppBar
-                    enableColorOnDark
-                    position="fixed"
-                    color="inherit"
-                    elevation={0}
-                    sx={{
-                        bgcolor: color?.navBG,
-                        height: !isNavbarClose ? navbarHeight : '0px',
-                        border: '1px solid',
-                        transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
-                    }}
-                >
-                    {/* ----------------- Navbar ------------------- */}
-                    <Toolbar sx={{ border: '1px solid', display: isNavbarClose ? 'none' : 'flex', transition: 'display 0.8s' }}>
-                        <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
-                    </Toolbar>
-                    {isNavbarClose && (
-                        <Box display="flex" justifyContent="end" onClick={() => dispatch(navbarSlide())}>
-                            <ArrowSquareDown size="20" color={isDark ? 'white' : 'black'} />
-                        </Box>
-                    )}
-                </AppBar>
-
-                {/*-------------------- drawer/sidebar ---------------------*/}
-                <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
-
-                {/* -------------------- main content -------------------------*/}
-                <Main theme={theme} open={leftDrawerOpened} isclose={isNavbarClose} color={color}>
-                    {/* breadcrumb */}
-                    <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                    <Outlet />
-                </Main>
-            </Box>
-            
-        </>
+      <>
+        <Box>
+          <HeaderSection />
+          <Box>
+            <FadeInDiv>
+              {children}
+              <Outlet />
+            </FadeInDiv>
+          </Box>
+          <Footer />
+        </Box>
+      </>
     );
+
+  return (
+    <>
+      <Box sx={{ display: 'flex', height: '80svh' }}>
+        <CssBaseline />
+        {/* header */}
+        <AppBar
+          enableColorOnDark
+          position="fixed"
+          color="inherit"
+          elevation={0}
+          sx={{
+            bgcolor: color?.navBG,
+            height: !isNavbarClose ? navbarHeight : '0px',
+            transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+          }}
+        >
+          {/* ----------------- Navbar ------------------- */}
+          <Toolbar sx={{ display: isNavbarClose ? 'none' : 'flex', transition: 'display 0.8s' }}>
+            <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+          </Toolbar>
+          {isNavbarClose && (
+            <Box display="flex" justifyContent="end" onClick={() => dispatch(navbarSlide())}>
+              <ArrowSquareDown size="20" color={isDark ? 'white' : 'black'} />
+            </Box>
+          )}
+        </AppBar>
+
+        {/*-------------------- drawer/sidebar ---------------------*/}
+        <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+
+        {/* -------------------- main content -------------------------*/}
+        <Main theme={theme} open={leftDrawerOpened} isclose={isNavbarClose} color={color}>
+          {/* breadcrumb */}
+          <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+          <Outlet />
+        </Main>
+      </Box>
+    </>
+  );
 };
 
 export default MainLayout;

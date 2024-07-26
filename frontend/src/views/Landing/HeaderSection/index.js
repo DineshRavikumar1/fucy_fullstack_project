@@ -104,7 +104,7 @@ export default function Header() {
   const handleClose = (name) => {
     if (name === 'TARA Automation') {
       dispatch(changeCanvasPage('canvas'));
-      navigate('/Modals', { replace: true });
+      navigate('/Models', { replace: true });
     }
     setAnchorEl(null);
     setMenuOpen(false);

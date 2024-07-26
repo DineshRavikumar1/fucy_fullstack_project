@@ -90,7 +90,7 @@ export default function AddModal({ open, handleClose, getModals }) {
             setOpenMsg(true);
             setMessage('Created Successfully');
             setSuccess(true);
-            navigate(`/Modals/${id}`);
+            navigate(`/Models/${id}`);
             // window.location.href = `/Modals/${id}`;
             getModals();
           }, 500);
