@@ -27,8 +27,8 @@ const useStyles = makeStyles(() => ({
 const selector = (state) => ({
   sidebarNodes: state.sidebarNodes,
   getSidebarNode: state.getSidebarNode,
-  deleteNode: state.deleteNode,
-  getComponent: state.getComponent
+  deleteNode: state.deleteNode
+  // getComponent: state.getComponent
 });
 
 const Components = () => {
@@ -38,7 +38,7 @@ const Components = () => {
   const [openAdd, setOpenAdd] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedItem, setSelectedItem] = useState({});
-  const { sidebarNodes, getSidebarNode, getComponent } = useStore(selector);
+  const { sidebarNodes, getSidebarNode } = useStore(selector);
   const color = ColorTheme();
 
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -62,7 +62,7 @@ const Components = () => {
   };
 
   useEffect(() => {
-    getComponent();
+    getSidebarNode();
   }, []);
 
   const handleOpen = (item) => {

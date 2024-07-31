@@ -1,7 +1,8 @@
 import { makeStyles } from '@mui/styles';
 import { Box, Tooltip, Typography } from '@mui/material';
 import React, { useEffect, useState, useCallback } from 'react';
-import { TextalignJustifycenter, BrushBig, Grid2 } from 'iconsax-react';
+import { BrushBig } from 'iconsax-react';
+import GridOnIcon from '@mui/icons-material/GridOn';
 import FormatShapesIcon from '@mui/icons-material/FormatShapes';
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 import GetAppIcon from '@mui/icons-material/GetApp';
@@ -15,8 +16,9 @@ import BorderOuterIcon from '@mui/icons-material/BorderOuter';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   header: {
     width: 'inherit',
     height: '2rem',
@@ -25,10 +27,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: 20,
     padding: '0 1rem',
-    [theme.breakpoints.down('md')]: {
-      overflow: 'auto',
-      scrollbarWidth: 'none'
-    }
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    scrollbarWidth: 'none'
   },
   icons: {
     fontSize: '20px'
@@ -100,38 +101,40 @@ export default function Header({
 
   const handleFontStyle = (name) => {
     const list = [...nodes];
-    const node = list?.find((nd) => nd?.id === selectedNode?.id);
-    const Index = list?.findIndex((nd) => nd?.id === selectedNode?.id);
+    const nodeIndex = list.findIndex((nd) => nd?.id === selectedNode?.id);
+
+    if (nodeIndex === -1) return; // Exit if no matching node is found
+
+    const node = list[nodeIndex];
     const { style } = node.data;
-    if (name === 'bold' && !highlight?.bold) {
-      setStyles((state) => ({ ...state, fontWeight: 600 }));
-      setHighlight((state) => ({ ...state, bold: !state.bold }));
-      style.fontWeight = 700;
-    } else if (name === 'bold' && highlight?.bold) {
-      setStyles((state) => ({ ...state, fontWeight: 500 }));
-      setHighlight((state) => ({ ...state, bold: !state.bold }));
-      style.fontWeight = 500;
+
+    const styleUpdates = {
+      bold: { key: 'fontWeight', values: [700, 500] },
+      italic: { key: 'fontStyle', values: ['italic', 'normal'] },
+      underline: { key: 'textDecoration', values: ['underline', 'none'] }
+    };
+
+    const highlightKey = {
+      bold: 'bold',
+      italic: 'italic',
+      underline: 'decor'
+    };
+
+    const currentHighlight = highlight[highlightKey[name]];
+
+    if (styleUpdates[name]) {
+      const { key, values } = styleUpdates[name];
+      style[key] = currentHighlight ? values[1] : values[0];
+
+      setStyles((state) => ({ ...state, [key]: style[key] }));
+      setHighlight((state) => ({
+        ...state,
+        [highlightKey[name]]: !currentHighlight
+      }));
     }
-    if (name === 'italic' && !highlight?.italic) {
-      setStyles((state) => ({ ...state, fontStyle: name }));
-      setHighlight((state) => ({ ...state, italic: !state.italic }));
-      style.fontStyle = 'italic';
-    } else if (name === 'italic' && highlight?.italic) {
-      setStyles((state) => ({ ...state, fontStyle: name }));
-      setHighlight((state) => ({ ...state, italic: !state.italic }));
-      style.fontStyle = 'normal';
-    }
-    if (name === 'underline' && !highlight?.decor) {
-      setStyles((state) => ({ ...state, textDecoration: 'underline' }));
-      setHighlight((state) => ({ ...state, decor: !state.decor }));
-      style.textDecoration = 'underline';
-    } else if (name === 'underline' && highlight?.decor) {
-      setStyles((state) => ({ ...state, textDecoration: 'underline' }));
-      setHighlight((state) => ({ ...state, decor: !state.decor }));
-      style.textDecoration = 'none';
-    }
+
     setSelectedNode(node);
-    list[Index] = node;
+    list[nodeIndex] = node;
     setNodes(list);
   };
 
@@ -197,7 +200,7 @@ export default function Header({
       id: 1,
       title: 'Grouping',
       onclick: () => createGroup,
-      component: <Grid2 size="20" />
+      component: <GridOnIcon />
     },
     {
       id: 2,
@@ -271,7 +274,7 @@ export default function Header({
             fontWeight: highlight?.italic ? 700 : 500
           }}
         />
-        <TextalignJustifycenter size="20" color={iconColor} />
+        <FormatAlignJustifyIcon sx={{ color: iconColor }} />
         <label htmlFor="color" style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: '1.8rem' }}>
           <CreateIcon color={iconColor} sx={{ fontSize: '1.3rem' }} />
           <span

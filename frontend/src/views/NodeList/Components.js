@@ -31,8 +31,8 @@ import ColorTheme from '../../store/ColorTheme';
 const selector = (state) => ({
   sidebarNodes: state.sidebarNodes,
   getSidebarNode: state.getSidebarNode,
-  deleteNode: state.deleteNode,
-  getComponent: state.getComponent
+  deleteNode: state.deleteNode
+  // getComponent: state.getComponent
 });
 
 const iconComponents = {
@@ -54,7 +54,7 @@ const iconComponents = {
 
 const Components = () => {
   const [open, setOpen] = useState(false);
-  const { sidebarNodes, getSidebarNode, getComponent } = useStore(selector);
+  const { sidebarNodes, getSidebarNode } = useStore(selector);
   const color = ColorTheme();
 
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -93,7 +93,7 @@ const Components = () => {
 
   useEffect(() => {
     getSidebarNode();
-    getComponent();
+    // getComponent();
   }, []);
 
   // open & closing fn for Dialog

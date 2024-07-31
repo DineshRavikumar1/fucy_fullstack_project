@@ -5,8 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from bson import ObjectId
 
-
-
 clientMongo = MongoClient('mongodb://localhost:27017')
 db = clientMongo['MY_DB']
 
@@ -14,6 +12,7 @@ db = clientMongo['MY_DB']
 def hello():
     return "Hello world"
 
+# For Login-----------------------------------------------------------------------------------------------
 @app.route('/register', methods=['POST'])
 def register():
     try:
@@ -93,7 +92,7 @@ def reset_password():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
+# For Fetching--------------------------------------------------------------------------------------------
 @app.route('/get_details/sidebarNode', methods=['POST'])
 def sideBarNode():
     data = list(db.side_bar_nodes.find({}))
@@ -102,7 +101,7 @@ def sideBarNode():
     
     return jsonify(data)
 
-@app.route('/get_details/templates', methods=['GET'])
+@app.route('/get_details/templates', methods=['POST'])
 def tepmlet():
     data = list(db.templates.find({}))
     for item in data:
@@ -150,7 +149,73 @@ def get_template_by_id(template_id):
     else:
         return jsonify({"error": "Model not found"}), 404
     
+# For Adding---------------------------------------------------------------------------------------------
+@app.route('/add/sidebarNode', methods=['POST'])
+def addSideBarNode():
+    try:
+        name = request.form.get('name')
+        if not name:
+            return jsonify({"error": "Name is required"}), 400
+        data=[{
+                "name":name,
+                "nodes": []
+            }]
+        db.side_bar_nodes.insert_many(data)  
+        return jsonify({"message": "Side Bar Node inserted successfully!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/add/node', methods=['POST'])
+def addNode():
+    try:
+        node_id = request.form.get('id')        
+        if not node_id:
+            return jsonify({"error": "Id is required"}), 400
+        
+        object_id = ObjectId(node_id)
+        data = db.side_bar_nodes.find_one({"_id": object_id})
+        
+        if data is None:
+            return jsonify({"error": "Node not found"}), 404
+        new_node = request.form.get('new_node') 
+        new=json.loads(new_node)
+        if 'nodes' not in data or not isinstance(data['nodes'], list):
+            data['nodes'] = []
+        data['nodes'].append(new)
+        db.side_bar_nodes.update_one({"_id": object_id}, {"$set": {"nodes": data['nodes']}})
+            
+        return jsonify({"message": "Node inserted successfully!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
+    
+@app.route('/add/templates', methods=['POST'])
+def addTemplets():
+    try:
+        data = request.form.get('templates')
+        new=json.loads(data)
+        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
+        # if not isinstance(data, list):
+        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
+        db.templates.insert_many(new)  
+        return jsonify({"message": "Templates inserted successfully!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/add/Models', methods=['POST'])
+def addModelslets():
+    try:
+        data = request.form.get('models')
+        new=json.loads(data)
+        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
+        # if not isinstance(data, list):
+        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
+        db.templets.insert_many(new)  
+        return jsonify({"message": "Templates inserted successfully!"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+# For Updating----------------------------------------------------------------------------------------------------
 @app.route('/update_model/<model_id>', methods=['PUT'])
 def update_model(model_id):
     try:
@@ -175,42 +240,3 @@ def update_model(model_id):
             return jsonify({"message": "No changes made to the model"}), 304
     else:
         return jsonify({"error": "Model not found"}), 404
-
-@app.route('/add/sidebarNode', methods=['POST'])
-def addSideBarNode():
-    try:
-        data = request.form.get('sidebars')
-        new=json.loads(data)
-        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
-        # if not isinstance(data, list):
-        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
-        db.side_bar_nodes.insert_many(new)  
-        return jsonify({"message": "Side Bar Node inserted successfully!"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
-@app.route('/add/templates', methods=['POST'])
-def addTemplets():
-    try:
-        data = request.form.get('templates')
-        new=json.loads(data)
-        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
-        # if not isinstance(data, list):
-        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
-        db.templets.insert_many(new)  
-        return jsonify({"message": "Templates inserted successfully!"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
-@app.route('/add/Models', methods=['POST'])
-def addModelslets():
-    try:
-        data = request.form.get('models')
-        new=json.loads(data)
-        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
-        # if not isinstance(data, list):
-        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
-        db.templets.insert_many(new)  
-        return jsonify({"message": "Templates inserted successfully!"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500

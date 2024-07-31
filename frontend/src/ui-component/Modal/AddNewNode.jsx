@@ -15,7 +15,6 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import useStore from '../../Zustand/store';
-import { v4 as uid } from 'uuid';
 import AlertMessage from '../Alert';
 
 const ITEM_HEIGHT = 48;
@@ -34,7 +33,8 @@ const names = ['Confidentiality', 'Integrity', 'Authenticity', 'Authorization', 
 const selector = (state) => ({
   nodeState: state.sidebarNodes,
   updateNode: state.updateSidebarNodes,
-  create: state.createComponent
+  // create: state.createComponent,
+  createNode: state.createNode
 });
 
 function getStyles(name, nodes, theme) {
@@ -54,11 +54,7 @@ const AddNewNode = ({ open, handleClose, getSidebarNode, selectedItem }) => {
   const [openMsg, setOpenMsg] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState('');
-  const {
-    // create
-    nodeState,
-    updateNode
-  } = useStore(selector);
+  const { nodeState, updateNode, createNode } = useStore(selector);
 
   //Name & type for the new Node
   const handleChange = (event) => {
@@ -77,18 +73,21 @@ const AddNewNode = ({ open, handleClose, getSidebarNode, selectedItem }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const dataNode = {
-      id: uid(),
       data: { label: newNode.nodeName, bgColor: newNode.bgColor },
       type: newNode.type,
       properties: newNode.properties,
       width: 120,
       height: 50
     };
-
-    const selectedsection = nodeState?.find((nd) => nd.id === selectedItem?.id);
-    selectedsection?.nodes?.push(dataNode);
+    const details = {
+      id: selectedItem?._id,
+      new_node: dataNode
+    };
+    // const selectedsection = nodeState?.find((nd) => nd.id === selectedItem?.id);
+    // selectedsection?.nodes?.push(dataNode);
     // console.log('selectedsection', selectedsection);
-    updateNode(selectedsection)
+    createNode(details)
+      // updateNode(selectedsection)
       .then((res) => {
         console.log('res', res);
         if (res.data) {

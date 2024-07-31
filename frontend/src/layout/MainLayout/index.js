@@ -1,8 +1,7 @@
+/* eslint-disable*/
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-// eslint-disable-next-line react-hooks/exhaustive-deps
-// material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
 
@@ -10,6 +9,8 @@ import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material'
 import Breadcrumbs from '../../ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import Sidebar1 from './Sidebar1';
+
 import navigation from '../../menu-items';
 import { navbarHeight, drawerWidth } from '../../store/constant';
 import ColorTheme from '../../store/ColorTheme';
@@ -22,6 +23,7 @@ import { navbarSlide } from '../../store/slices/CurrentIdSlice';
 import Footer from '../../views/Landing/Footer';
 import HeaderSection from '../../views/Landing/HeaderSection';
 import FadeInDiv from '../../ui-component/FadeInDiv';
+import Header1 from './Header1';
 
 // import Customization from '../Customization';
 
@@ -32,11 +34,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   return {
     ...theme.typography.mainContent,
     background: color?.canvaSurroundsBG,
+    marginTop: navbarHeight,
     // border: '1px solid gray',
-    maxWidth: 'auto',
-    marginTop: isclose == true ? '0px' : navbarHeight,
-    // minHeight:'inherit',
-    minHeight: isclose == true ? `100svh` : `80svh`,
+    maxWidth: 'auto', // minHeight:'inherit',
+    minHeight: isclose == true ? `100svh` : `93svh`,
     // height:!isNavbarClose ? `80svh`:`auto`,
     marginRight: 0,
     ...(!open && {
@@ -48,7 +49,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
       }),
       [theme.breakpoints.up('md')]: {
         marginLeft: -drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginTop: isclose == true ? `0` : navbarHeight
       },
       [theme.breakpoints.down('md')]: {
         // marginLeft: '20px',
@@ -137,8 +139,9 @@ const MainLayout = ({ children }) => {
           }}
         >
           {/* ----------------- Navbar ------------------- */}
-          <Toolbar sx={{ display: isNavbarClose ? 'none' : 'flex', transition: 'display 0.8s' }}>
-            <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+          <Toolbar sx={{ display: isNavbarClose ? 'none' : 'flex', transition: 'display 0.8s', justifyContent: 'space-between' }}>
+            {/* <Header handleLeftDrawerToggle={handleLeftDrawerToggle} /> */}
+            <Header1 />
           </Toolbar>
           {isNavbarClose && (
             <Box display="flex" justifyContent="end" onClick={() => dispatch(navbarSlide())}>
@@ -148,7 +151,8 @@ const MainLayout = ({ children }) => {
         </AppBar>
 
         {/*-------------------- drawer/sidebar ---------------------*/}
-        <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+        {/* <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} /> */}
+        <Sidebar1 drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
 
         {/* -------------------- main content -------------------------*/}
         <Main theme={theme} open={leftDrawerOpened} isclose={isNavbarClose} color={color}>

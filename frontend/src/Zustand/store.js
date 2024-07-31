@@ -221,13 +221,13 @@ const useStore = createWithEqualityFn((set, get) => ({
   //fetch or GET section
   fetchAPI: async () => {
     // const res = await axios.get(`${configuration.apiBaseUrl}template`);
-    const res = await axios.get(`${configuration?.backendUrl}/get_details/templates`);
+    const res = await axios.post(`${configuration?.backendUrl}/get_details/templates`);
     set({
       template: res.data
     });
   },
 
-  getComponent: async () => {
+  getSidebarNode: async () => {
     const res = await axios.post(`${configuration.backendUrl}get_details/sidebarNode`);
     // console.log('res', res);
     set({
@@ -235,12 +235,12 @@ const useStore = createWithEqualityFn((set, get) => ({
     });
   },
 
-  getSidebarNode: async () => {
-    const res = await axios.get(`${configuration.apiBaseUrl}sidebarNode`);
-    set({
-      sidebarNodes: res.data
-    });
-  },
+  // getSidebarNode: async () => {
+  //   const res = await axios.get(`${configuration.apiBaseUrl}sidebarNode`);
+  //   set({
+  //     sidebarNodes: res.data
+  //   });
+  // },
 
   getTemplate: async (id) => {
     const res = await axios.get(`${configuration.apiBaseUrl}template?id=${id}`);
@@ -323,9 +323,26 @@ const useStore = createWithEqualityFn((set, get) => ({
   //Add Section
 
   createComponent: async (newTemplate) => {
+    const FormData = require('form-data');
+    let data = new FormData();
+    data.append('name', newTemplate?.Name);
+
     // const res = await axios.post(`${configuration.backendUrl}createComponent`,newTemplate)
-    const res = await axios.post(`${configuration.backendUrl}add/sidebarNode`, newTemplate);
+    const res = await axios.post(`${configuration.backendUrl}add/sidebarNode`, (data = data));
     console.log('res', res);
+    return res;
+  },
+
+  createNode: async (newNode) => {
+    const FormData = require('form-data');
+    let data = new FormData();
+    data.append('id', newNode.id);
+    data.append('new_node', JSON.stringify(newNode.new_node));
+
+    // const res = await axios.post(`${configuration.backendUrl}createComponent`,newTemplate)
+    const res = await axios.post(`${configuration.backendUrl}/add/node`, data);
+    console.log('res', res);
+    return res;
   },
 
   createNewComponentLibrary: async (newTemplate) => {

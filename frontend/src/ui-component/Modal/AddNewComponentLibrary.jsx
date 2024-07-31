@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Box, TextField, Slide } from '@mui/material';
 import useStore from '../../Zustand/store';
-import { v4 as uid } from 'uuid';
 import { shallow } from 'zustand/shallow';
 import AlertMessage from '../Alert';
 
@@ -10,7 +9,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const selector = (state) => ({
-  create: state.createNewComponentLibrary,
+  create: state.createComponent,
   getSidebarNode: state.getSidebarNode
 });
 
@@ -20,16 +19,11 @@ export default function AddNewComponentLibrary({ open, handleClose }) {
   const [message, setMessage] = React.useState('');
   const { create, getSidebarNode } = useStore(selector, shallow);
   const [templateDetails, setTemplateDetails] = React.useState({
-    name: ''
+    Name: ''
   });
 
   const handleCreate = () => {
-    const newModal = {
-      ...templateDetails,
-      id: uid(),
-      nodes: []
-    };
-    create(newModal)
+    create(templateDetails)
       .then((res) => {
         if (res) {
           console.log('res in create', res);
@@ -50,7 +44,7 @@ export default function AddNewComponentLibrary({ open, handleClose }) {
       });
     setTemplateDetails((state) => ({
       ...state,
-      name: ''
+      Name: ''
     }));
   };
 
@@ -68,11 +62,11 @@ export default function AddNewComponentLibrary({ open, handleClose }) {
           <DialogContentText id="alert-dialog-slide-description">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, my: 1 }}>
               <TextField
-                value={templateDetails?.name}
+                value={templateDetails?.Name}
                 id="outlined-basic"
                 label="Name"
                 variant="outlined"
-                onChange={(e) => setTemplateDetails({ ...templateDetails, name: e.target.value })}
+                onChange={(e) => setTemplateDetails({ ...templateDetails, Name: e.target.value })}
                 sx={{
                   width: '300px'
                 }}

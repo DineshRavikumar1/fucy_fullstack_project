@@ -707,7 +707,7 @@ export default function MainCanvas() {
           >
             <Controls />
             <MiniMap zoomable pannable style={{ background: Color.canvasBG }} />
-            <Background variant="none" gap={12} size={1} style={{ backgroundColor: Color?.canvasBG }} />
+            <Background variant="dots" gap={12} size={1} style={{ backgroundColor: Color?.canvasBG }} />
             <LeftDrawer state={isLeftDrawerOpen} drawerOpen={toggleLeftDrawerOpen} drawerClose={toggleLeftDrawerClose} />
             <RightDrawer
               state={isRightDrawerOpen}

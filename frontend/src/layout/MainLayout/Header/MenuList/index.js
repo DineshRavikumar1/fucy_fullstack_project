@@ -113,8 +113,8 @@ export default function MenuList() {
     // console.log('Image', Image);
     return (
       <div>
-        {Image ? <img src={Image} alt={item.label} style={{ height: '25px', width: '25px' }} /> : null}
-        <Typography variant="body2" mt={0.5} sx={{ fontSize: 13, color: color?.tabContentClr, fontFamily: 'Inter' }}>
+        {Image ? <img src={Image} alt={item.label} style={{ height: '20px', width: '20px' }} /> : null}
+        <Typography variant="body2" sx={{ fontSize: 12, color: color?.tabContentClr, fontFamily: 'Inter' }}>
           {item?.label}
         </Typography>
       </div>
