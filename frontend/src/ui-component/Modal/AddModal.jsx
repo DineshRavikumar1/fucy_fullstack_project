@@ -21,7 +21,7 @@ import useStore from '../../Zustand/store';
 import { shallow } from 'zustand/shallow';
 // import { storeCurrentId } from '../../store/slices/CurrentIdSlice';
 // import { useDispatch } from 'react-redux';
-import AlertMessage from '../Alert';
+import { ToasterContext } from '../../layout/MainLayout/Sidebar1';
 // import { useNavigate } from 'react-router';
 // import { useNavigate } from 'react-router';
 
@@ -53,9 +53,8 @@ const selector = (state) => ({
 export default function AddModal({ open, handleClose, getModals }) {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const [openMsg, setOpenMsg] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
-  const [message, setMessage] = React.useState('');
+
+  const { notify } = React.useContext(ToasterContext);
   // const navigate = useNavigate();
   const { create } = useStore(selector, shallow);
   // const theme = useTheme();
@@ -81,14 +80,11 @@ export default function AddModal({ open, handleClose, getModals }) {
     create(newModal)
       .then((res) => {
         if (res) {
-          console.log('res in create', res);
+          // console.log('res in create', res);
           // const { id } = res.data;
           // dispatch(storeCurrentId(id));
           setTimeout(() => {
-            setSuccess(true);
-            setMessage(res.data.message);
-            setOpenMsg(true);
-            alert(res.data.message);
+            notify(res.data.message, 'success');
             // navigate(`/Models/${id}`);
             // window.location.href = `/Modals/${id}`;
             getModals();
@@ -98,9 +94,7 @@ export default function AddModal({ open, handleClose, getModals }) {
       })
       .catch((err) => {
         console.log('err', err);
-        setOpenMsg(true);
-        setSuccess(false);
-        setMessage('Something went wrong');
+        notify('Something Went Wrong', 'error');
       });
     setTemplateDetails((state) => ({
       ...state,
@@ -170,7 +164,6 @@ export default function AddModal({ open, handleClose, getModals }) {
           </Button>
         </DialogActions>
       </Dialog>
-      {openMsg && <AlertMessage open={openMsg} message={message} setOpen={setOpenMsg} success={success} />}
     </React.Fragment>
   );
 }

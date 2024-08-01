@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { Box, Drawer, useMediaQuery, Tabs, Tab, Popper, Typography } from '@mui/material';
@@ -21,6 +21,9 @@ import BrowserCard from '../Sidebar/BrowserCard/index1';
 import MenuCard from '../Sidebar/MenuCard';
 import { makeStyles } from '@mui/styles';
 import MenuList from '../Header1/MenuList';
+import toast, { Toaster } from 'react-hot-toast';
+
+export const ToasterContext = createContext();
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 const useStyles = makeStyles(() => ({
@@ -50,6 +53,7 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
   const theme = useTheme();
   const { isNavbarClose } = useSelector((state) => state.currentId);
   const { Properties } = useSelector((state) => state?.pageName);
+  const notify = (message, status) => toast[status](message);
 
   useEffect(() => {
     fetchAPI();
@@ -153,40 +157,43 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
   );
 
   const container = window !== undefined ? () => window.document.body : undefined;
-
+  const values = { notify };
   return (
-    <Box
-      component="nav"
-      sx={{
-        flexShrink: { md: 0 },
-        width: drawerWidth,
-        background: color?.sidebarBG,
-        mt: `${navbarHeight}px`,
-        height: height
-      }}
-      aria-label="mailbox folders"
-    >
-      <Drawer
-        container={container}
-        variant={'persistent'}
-        anchor="left"
-        open={true}
-        // onClose={drawerToggle}
+    <ToasterContext.Provider value={values}>
+      <Box
+        component="nav"
         sx={{
-          '& .MuiDrawer-paper': {
-            borderRight: `1px solid ${color?.tabBG}`,
-            width: drawerWidth,
-            background: color?.sidebarBG,
-            color: theme.palette.text.primary,
-            top: !isNavbarClose ? navbarHeight : '0px'
-          }
+          flexShrink: { md: 0 },
+          width: drawerWidth,
+          background: color?.sidebarBG,
+          mt: `${navbarHeight}px`,
+          height: height
         }}
-        ModalProps={{ keepMounted: true }}
-        color="inherit"
+        aria-label="mailbox folders"
       >
-        {drawer}
-      </Drawer>
-    </Box>
+        <Drawer
+          container={container}
+          variant={'persistent'}
+          anchor="left"
+          open={true}
+          // onClose={drawerToggle}
+          sx={{
+            '& .MuiDrawer-paper': {
+              borderRight: `1px solid ${color?.tabBG}`,
+              width: drawerWidth,
+              background: color?.sidebarBG,
+              color: theme.palette.text.primary,
+              top: !isNavbarClose ? navbarHeight : '0px'
+            }
+          }}
+          ModalProps={{ keepMounted: true }}
+          color="inherit"
+        >
+          {drawer}
+        </Drawer>
+        <Toaster position="top-right" reverseOrder={false} />
+      </Box>
+    </ToasterContext.Provider>
   );
 }
 
