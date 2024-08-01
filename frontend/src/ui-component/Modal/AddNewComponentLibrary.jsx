@@ -28,11 +28,11 @@ export default function AddNewComponentLibrary({ open, handleClose }) {
         if (res) {
           console.log('res in create', res);
           setTimeout(() => {
-            handleClose();
             setOpenMsg(true);
             setMessage('Created Successfully');
             setSuccess(true);
             getSidebarNode();
+            handleClose();
           }, 500);
         }
       })
@@ -83,7 +83,7 @@ export default function AddNewComponentLibrary({ open, handleClose }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <AlertMessage open={openMsg} message={message} setOpen={setOpenMsg} success={success} />
+      {openMsg && <AlertMessage open={openMsg} message={message} setOpen={setOpenMsg} success={success} />}
     </React.Fragment>
   );
 }

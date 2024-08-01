@@ -11,6 +11,7 @@ import themes from './themes';
 
 // project imports
 import NavigationScroll from './layout/NavigationScroll';
+import MockErrorBoundary from './views/ErrorPage';
 
 // ==============================|| APP ||============================== //
 
@@ -22,7 +23,9 @@ const App = () => {
       <ThemeProvider theme={themes(customization)}>
         <CssBaseline />
         <NavigationScroll>
-          <Routes />
+          <MockErrorBoundary>
+            <Routes />
+          </MockErrorBoundary>
         </NavigationScroll>
       </ThemeProvider>
     </StyledEngineProvider>

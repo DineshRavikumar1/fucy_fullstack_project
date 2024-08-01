@@ -12,7 +12,7 @@ import { BrowserView, MobileView } from 'react-device-detect';
 
 // project imports
 // import LogoSection from '../LogoSection';
-import { drawerWidth, navbarHeight, sidebarWidth } from '../../../store/constant';
+import { drawerWidth, height, navbarHeight, sidebarWidth } from '../../../store/constant';
 import ColorTheme from '../../../store/ColorTheme';
 import useStore from '../../../Zustand/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,7 @@ import { clearProperties } from '../../../store/slices/PageSectionSlice';
 import BrowserCard from '../Sidebar/BrowserCard/index1';
 import MenuCard from '../Sidebar/MenuCard';
 import { makeStyles } from '@mui/styles';
+import MenuList from '../Header1/MenuList';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 const useStyles = makeStyles(() => ({
@@ -49,7 +50,6 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
   const theme = useTheme();
   const { isNavbarClose } = useSelector((state) => state.currentId);
   const { Properties } = useSelector((state) => state?.pageName);
-  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
   useEffect(() => {
     fetchAPI();
@@ -78,7 +78,11 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
         );
 
       case 1:
-        return <Typography>Info Content</Typography>;
+        return (
+          <Typography>
+            <MenuList />
+          </Typography>
+        );
 
       default:
         return null;
@@ -102,7 +106,7 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
         <PerfectScrollbar
           component="div"
           style={{
-            height: !matchUpMd ? 'calc(80vh - 56px)' : 'calc(80vh - 88px)',
+            height: 'calc(80vh - 88px)',
             marginTop: '1.4rem'
           }}
         >
@@ -155,27 +159,26 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
       component="nav"
       sx={{
         flexShrink: { md: 0 },
-        width: matchUpMd ? drawerWidth : 'auto',
+        width: drawerWidth,
         background: color?.sidebarBG,
-        mt: !isNavbarClose ? navbarHeight : '0px'
+        mt: `${navbarHeight}px`,
+        height: height
       }}
       aria-label="mailbox folders"
     >
       <Drawer
         container={container}
-        variant={matchUpMd ? 'persistent' : 'temporary'}
+        variant={'persistent'}
         anchor="left"
-        open={drawerOpen}
-        onClose={drawerToggle}
+        open={true}
+        // onClose={drawerToggle}
         sx={{
           '& .MuiDrawer-paper': {
             borderRight: `1px solid ${color?.tabBG}`,
             width: drawerWidth,
             background: color?.sidebarBG,
             color: theme.palette.text.primary,
-            [theme.breakpoints.up('md')]: {
-              top: !isNavbarClose ? navbarHeight : '0px'
-            }
+            top: !isNavbarClose ? navbarHeight : '0px'
           }
         }}
         ModalProps={{ keepMounted: true }}

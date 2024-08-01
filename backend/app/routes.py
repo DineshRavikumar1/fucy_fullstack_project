@@ -165,6 +165,22 @@ def addSideBarNode():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+@app.route('/add/Models', methods=['POST'])
+def addModelslets():
+      try:
+          name = request.form.get('name')
+          if not name:
+            return jsonify({"error": "Name is required"}), 400
+          data=[{
+                "name":name
+            }]
+          db.models.insert_many(data)  
+          return jsonify({"message": "Model Created successfully!"}), 201
+
+      except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
 @app.route('/add/node', methods=['POST'])
 def addNode():
     try:
@@ -202,19 +218,20 @@ def addTemplets():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.route('/add/Models', methods=['POST'])
-def addModelslets():
-    try:
-        data = request.form.get('models')
-        new=json.loads(data)
-        # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
-        # if not isinstance(data, list):
-        #     return jsonify({"error": "Input data should be a list of nodes"}), 400
-        db.templets.insert_many(new)  
-        return jsonify({"message": "Templates inserted successfully!"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
+# @app.route('/add/Models', methods=['POST'])
+# def addModelslets():
+#     try:
+#         data = request.form.get('models')
+#         new=json.loads(data)
+#         # app.logger.info("D A T A >>>>>>>>>>>{}".format(new))
+#         # if not isinstance(data, list):
+#         #     return jsonify({"error": "Input data should be a list of nodes"}), 400
+#         db.templets.insert_many(new)  
+#         return jsonify({"message": "Model Created successfully!"}), 201
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+
+
 # For Updating----------------------------------------------------------------------------------------------------
 @app.route('/update_model/<model_id>', methods=['PUT'])
 def update_model(model_id):

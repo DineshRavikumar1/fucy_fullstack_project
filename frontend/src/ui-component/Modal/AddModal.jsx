@@ -18,12 +18,11 @@ import {
   // useTheme
 } from '@mui/material';
 import useStore from '../../Zustand/store';
-import { v4 as uid } from 'uuid';
 import { shallow } from 'zustand/shallow';
-import { storeCurrentId } from '../../store/slices/CurrentIdSlice';
-import { useDispatch } from 'react-redux';
+// import { storeCurrentId } from '../../store/slices/CurrentIdSlice';
+// import { useDispatch } from 'react-redux';
 import AlertMessage from '../Alert';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 // import { useNavigate } from 'react-router';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -52,8 +51,8 @@ const selector = (state) => ({
 // const Properties = ['Confidentiality', 'Integrity', 'Authenticity', 'Authorization', 'Non-repudiation', 'Availability'];
 
 export default function AddModal({ open, handleClose, getModals }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const [openMsg, setOpenMsg] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState('');
@@ -76,23 +75,24 @@ export default function AddModal({ open, handleClose, getModals }) {
 
   const handleCreate = () => {
     const newModal = {
-      ...templateDetails,
-      id: uid()
+      ...templateDetails
     };
+
     create(newModal)
       .then((res) => {
         if (res) {
           console.log('res in create', res);
-          const { id } = res.data;
-          dispatch(storeCurrentId(id));
+          // const { id } = res.data;
+          // dispatch(storeCurrentId(id));
           setTimeout(() => {
-            handleClose();
-            setOpenMsg(true);
-            setMessage('Created Successfully');
             setSuccess(true);
-            navigate(`/Models/${id}`);
+            setMessage(res.data.message);
+            setOpenMsg(true);
+            alert(res.data.message);
+            // navigate(`/Models/${id}`);
             // window.location.href = `/Modals/${id}`;
             getModals();
+            handleClose();
           }, 500);
         }
       })
@@ -170,7 +170,7 @@ export default function AddModal({ open, handleClose, getModals }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <AlertMessage open={openMsg} message={message} setOpen={setOpenMsg} success={success} />
+      {openMsg && <AlertMessage open={openMsg} message={message} setOpen={setOpenMsg} success={success} />}
     </React.Fragment>
   );
 }

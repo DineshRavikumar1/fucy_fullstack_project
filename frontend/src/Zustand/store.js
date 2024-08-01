@@ -412,18 +412,16 @@ const useStore = createWithEqualityFn((set, get) => ({
   },
 
   createModal: async (newModal) => {
+    const FormData = require('form-data');
+    let data = new FormData();
+    data.append('name', newModal?.name);
     try {
-      const res = await axios.post(`${configuration.apiBaseUrl}Modals`, newModal);
+      const res = await axios.post(`${configuration.backendUrl}/add/Models`, data);
       if (res) {
-        console.log('res store', res);
-        localStorage.setItem('currentId', res?.data?.id);
         return res;
       }
     } catch (err) {
       console.log('err', err);
-      //   if (err) {
-      //       alert('Something went Wrong');
-      //   }
     }
   },
 
