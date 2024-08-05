@@ -89,7 +89,7 @@ const AddNewNode = ({ open, handleClose, getSidebarNode, selectedItem }) => {
     createNode(details)
       // updateNode(selectedsection)
       .then((res) => {
-        console.log('res', res);
+        // console.log('res', res);
         if (res.data) {
           setTimeout(() => {
             setOpenMsg(true);

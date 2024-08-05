@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
 export default function SelectLosses({
   open,
@@ -101,7 +102,7 @@ export default function SelectLosses({
     });
 
     const updatedLoss = losses
-      .map((loss) =>
+      ?.map((loss) =>
         changes.filter((update) => {
           if (loss.id === update.id) {
             return { ...loss, cyberLosses: update.cyberLosses };
@@ -111,7 +112,7 @@ export default function SelectLosses({
       .flat();
 
     const updatedLossEdit = lossesEdit
-      .map((loss) =>
+      ?.map((loss) =>
         changes.filter((update) => {
           if (loss.id === update.id) {
             return { ...loss, cyberLosses: update.cyberLosses };
@@ -166,17 +167,25 @@ export default function SelectLosses({
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <TreeView aria-label="file system navigator" defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-              {modal?.scenarios[1]?.subs[0]?.Details?.map((item, i) => (
+              {modal?.scenarios[1]?.subs[1]?.Details?.map((item, i) => (
                 <TreeItem key={`a${i}`} nodeId={`a${i}`} label={item?.name}>
                   {item?.props?.map((pr, ind) => (
                     <TreeItem
                       key={`${i}${ind}`}
                       nodeId={`${i}${ind}`}
                       label={
-                        <div>
-                          <input type="checkbox" onChange={(e) => handleChange(e, pr, item)} />
-                          Loss of {pr}
-                        </div>
+                        <FormGroup>
+                          <FormControlLabel
+                            sx={{
+                              margin: '-6px',
+                              '& .MuiTypography-root': {
+                                fontSize: '13px'
+                              }
+                            }}
+                            control={<Checkbox size="small" onChange={(e) => handleChange(e, pr, item)} />}
+                            label={`Loss of ${pr}`}
+                          />
+                        </FormGroup>
                       }
                     />
                   ))}

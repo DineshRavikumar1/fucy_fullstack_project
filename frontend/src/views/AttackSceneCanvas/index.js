@@ -58,12 +58,12 @@ const getLayoutedElements = (nodes, edges, options = {}) => {
     edges: edges
   };
 
-  console.log('graph', graph);
-  console.log('elk', elk);
+  // console.log('graph', graph);
+  // console.log('elk', elk);
   return elk
     .layout(graph)
     .then((layoutedGraph) => {
-      console.log('layoutedGraph', layoutedGraph);
+      // console.log('layoutedGraph', layoutedGraph);
       return {
         nodes: layoutedGraph.children.map((node) => ({
           ...node,
@@ -152,8 +152,8 @@ export default function Home({ attackScene }) {
   } = useStore(selector, shallow);
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log('attackScene', attackScene);
-  console.log('modal', modal);
+  // console.log('attackScene', attackScene);
+  // console.log('modal', modal);
 
   const onLayout = useCallback(
     ({ direction, useInitialNodes = false }) => {
@@ -204,19 +204,18 @@ export default function Home({ attackScene }) {
       }
     };
   }, [attackScene]);
-  console.log('nodes', nodes);
+  // console.log('nodes', nodes);
   const handleSave = () => {
     const atScene = { ...attackScene };
     const mod = { ...modal };
     const selected = mod?.scenarios[3]?.subs[0]?.scenes?.find((ite) => ite.id === atScene?.id);
-    console.log('selected', selected);
+    // console.log('selected', selected);
     selected.template = {
       id: uid(),
       nodes: nodes,
       edges: edges
     };
     dispatch(setAttackScene(selected));
-    console.log('mod', mod);
     update(mod)
       .then((res) => {
         if (res) {

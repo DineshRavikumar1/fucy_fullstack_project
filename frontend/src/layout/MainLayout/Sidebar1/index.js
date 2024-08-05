@@ -1,11 +1,12 @@
 /*eslint-disable*/
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect, createContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
-import { Box, Drawer, useMediaQuery, Tabs, Tab, Popper, Typography } from '@mui/material';
+import { Box, Drawer, Tabs, Tab, Popper, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
-import CancelIcon from '@mui/icons-material/Cancel';
+// import CancelIcon from '@mui/icons-material/Cancel';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { BrowserView, MobileView } from 'react-device-detect';
@@ -28,7 +29,7 @@ export const ToasterContext = createContext();
 // ==============================|| SIDEBAR DRAWER ||============================== //
 const useStyles = makeStyles(() => ({
   icon: {
-    fontSize: 18,
+    fontSize: 22,
     position: 'absolute',
     top: 0,
     right: 0,
@@ -47,8 +48,10 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
   const classes = useStyles();
   const color = ColorTheme();
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(0); // Set initial tab to Home
+  const anchorRef = useRef(null); // Create a reference for the anchor element
+  const [anchorEl, setAnchorEl] = useState(null); // Start with no anchor initially
+  const [open, setOpen] = useState(true);
   const { template, fetchAPI, fetchModals, modals } = useStore(selector);
   const theme = useTheme();
   const { isNavbarClose } = useSelector((state) => state.currentId);
@@ -59,16 +62,23 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
     fetchAPI();
     fetchModals();
     dispatch(clearProperties());
+
+    // Set the initial anchor element to open the Popper
+    if (anchorRef.current) {
+      setAnchorEl(anchorRef.current);
+    }
   }, [fetchAPI, fetchModals, dispatch]);
 
   const handleTabClick = (event, newValue) => {
     setSelectedTab(newValue);
     setAnchorEl(event.currentTarget);
+    setOpen(true);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
     setSelectedTab(null);
+    setOpen(false);
   };
 
   const renderComponent = () => {
@@ -92,8 +102,6 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
         return null;
     }
   };
-
-  const open = Boolean(anchorEl);
 
   const drawer = (
     <>
@@ -127,8 +135,13 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
               }
             }}
           >
-            <Tab icon={<HomeIcon />} aria-label="Home" sx={{ minWidth: 'auto' }} />
-            <Tab icon={<InfoIcon />} aria-label="Info" sx={{ minWidth: 'auto' }} />
+            <Tab
+              icon={<HomeIcon />}
+              aria-label="Home"
+              sx={{ minWidth: 'auto' }}
+              ref={anchorRef} // Assign the reference to the Home tab
+            />
+            {/* <Tab icon={<InfoIcon />} aria-label="Info" sx={{ minWidth: 'auto' }} /> */}
           </Tabs>
           <Popper
             open={open}
@@ -138,20 +151,19 @@ export default function Sidebar1({ drawerOpen, drawerToggle, window }) {
               zIndex: 1300, // Ensure the Popper is above other elements
               width: sidebarWidth, // Adjust width as needed
               marginTop: navbarHeight, // Adjust to position below the navbar
-              position: 'relative',
               boxShadow: '0px 0px 10px gray',
               borderRadius: '8px'
             }}
           >
             <Box sx={{ p: 2, bgcolor: 'background.paper', height: 'auto', maxHeight: '75svh', borderRadius: '8px' }}>
-              <CancelIcon onClick={handleClose} className={classes.icon} />
+              <KeyboardDoubleArrowLeftIcon onClick={handleClose} className={classes.icon} />
               {renderComponent()}
             </Box>
           </Popper>
         </PerfectScrollbar>
       </BrowserView>
       <MobileView>
-        <Box sx={{ px: 2 }}>{/* <MenuCard /> */}</Box>
+        <Box sx={{ px: 2 }}></Box>
       </MobileView>
     </>
   );

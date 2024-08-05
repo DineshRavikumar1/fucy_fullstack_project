@@ -93,7 +93,7 @@ export default function AddModal({ open, handleClose, getModals }) {
         }
       })
       .catch((err) => {
-        console.log('err', err);
+        'err', err;
         notify('Something Went Wrong', 'error');
       });
     setTemplateDetails((state) => ({

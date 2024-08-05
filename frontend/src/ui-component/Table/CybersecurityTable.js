@@ -92,7 +92,6 @@ export default function CyberSecurityTable() {
       setRows(modal?.scenarios[4]?.subs[1]?.scenes);
     }
   }, [modal]);
-  console.log('rows', rows);
 
   const handleOpenModalTs = () => {
     setOpenTs(true);
@@ -100,10 +99,6 @@ export default function CyberSecurityTable() {
   const handleCloseTs = () => {
     setOpenTs(false);
   };
-
-  console.log('rows', rows);
-
-  console.log('modal12', modal);
 
   const handleBack = () => {
     dispatch(closeAll());

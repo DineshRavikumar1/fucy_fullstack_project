@@ -443,6 +443,17 @@ export default function MainCanvas() {
         props: node?.properties
       }));
 
+    // const DamageDetails = nodes
+    //   ?.filter((nd) => nd?.type !== 'group')
+    //   ?.map((node) => ({
+    //     id: uid(),
+    //     name: node?.data?.label,
+    //     props: node?.properties.map((pr) => ({
+    //       name: pr,
+    //       isChecked: false
+    //     }))
+    //   }));
+
     mod.template = { nodes, edges };
     mod.scenarios = [
       {
@@ -464,7 +475,8 @@ export default function MainCanvas() {
           {
             id: uid(),
             name: 'Damage Scenarios - Collection & Impact Ratings',
-            scenes: []
+            scenes: [],
+            Details: Details
           }
         ]
       },
@@ -608,8 +620,8 @@ export default function MainCanvas() {
   const onLoad = (reactFlowInstance) => reactFlowInstance.current;
 
   const handleSidebarOpen = (e, node) => {
-    console.log('e', e);
-    console.log('node', node);
+    // console.log('e', e);
+    // console.log('node', node);
     e.preventDefault();
     if (node.type !== 'group') {
       setSelectedNode(node);

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useState, useCallback, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
@@ -89,7 +90,7 @@ export default function CyberSecurityBlock() {
     getModalById(id);
   }, [id]);
 
-  console.log('nodes', nodes);
+  // console.log('nodes', nodes);
 
   const handleSave = () => {
     // const mod = {...modal};
@@ -113,7 +114,7 @@ export default function CyberSecurityBlock() {
       event.preventDefault();
       // const file = event.dataTransfer.getData("application/parseFile");
       const cyber = event.dataTransfer.getData('application/cyber');
-      console.log('cyber', cyber);
+      // console.log('cyber', cyber);
       // let parsedNode;
       // let parsedTemplate;
       // if (file) {
@@ -142,7 +143,7 @@ export default function CyberSecurityBlock() {
           }
         };
         // dragAdd(newNode);
-        console.log('newNode', newNode);
+        // console.log('newNode', newNode);
       }
 
       // if (parsedTemplate) {

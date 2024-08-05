@@ -291,7 +291,7 @@ const useStore = createWithEqualityFn((set, get) => ({
 
   updateTemplate: async (newTemplate) => {
     const res = await axios.patch(`${configuration.apiBaseUrl}template/${newTemplate.id}`, newTemplate);
-    console.log('res', res);
+    // console.log('res', res);
   },
 
   updateModal: async (newModal) => {
@@ -303,7 +303,7 @@ const useStore = createWithEqualityFn((set, get) => ({
     if (res) {
       // alert('Updated');
       // window.location.reload();
-      console.log('res', res);
+      // console.log('res', res);
       return res;
     }
   },
@@ -329,7 +329,7 @@ const useStore = createWithEqualityFn((set, get) => ({
 
     // const res = await axios.post(`${configuration.backendUrl}createComponent`,newTemplate)
     const res = await axios.post(`${configuration.backendUrl}add/sidebarNode`, (data = data));
-    console.log('res', res);
+    // console.log('res', res);
     return res;
   },
 
@@ -341,7 +341,7 @@ const useStore = createWithEqualityFn((set, get) => ({
 
     // const res = await axios.post(`${configuration.backendUrl}createComponent`,newTemplate)
     const res = await axios.post(`${configuration.backendUrl}/add/node`, data);
-    console.log('res', res);
+    // console.log('res', res);
     return res;
   },
 
@@ -360,7 +360,7 @@ const useStore = createWithEqualityFn((set, get) => ({
         }, 500);
       }
     } catch (err) {
-      console.log('err', err);
+      // console.log('err', err);
       // setTimeout(() => {
       // alert('Something went Wrong');
       // }, 1000);
@@ -368,7 +368,7 @@ const useStore = createWithEqualityFn((set, get) => ({
   },
 
   addDamageScenario: async (newTemplate) => {
-    console.log('newTemplate', newTemplate);
+    // console.log('newTemplate', newTemplate);
     try {
       const res = await axios.post(`${configuration.apiBaseUrl}Damage-scenarios`, newTemplate);
       // console.log('res store', res)
@@ -436,12 +436,12 @@ const useStore = createWithEqualityFn((set, get) => ({
 
   deleteNode: async (id) => {
     const res = await axios.delete(`${configuration.apiBaseUrl}sidebarNode/${id}`);
-    console.log('res', res);
+    // console.log('res', res);
   },
 
   deleteTemplate: async (id) => {
     const res = await axios.delete(`${configuration.apiBaseUrl}template/${id}`);
-    console.log('res', res);
+    // console.log('res', res);
     if (res) {
       setTimeout(() => {
         alert('Deleted Succesfully');

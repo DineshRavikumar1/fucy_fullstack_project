@@ -1,13 +1,8 @@
 /* eslint-disable */
 import * as React from 'react';
 import { Box } from '@mui/system';
+import { Radio, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel } from '@mui/material';
 import { ArrowSquareLeft, ArrowSquareRight } from 'iconsax-react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ComponentList from '../../../views/Libraries';
 import Components from '../../../views/NodeList';
 import { makeStyles } from '@mui/styles';
 import ColorTheme from '../../../store/ColorTheme';
@@ -26,6 +21,14 @@ const useStyles = makeStyles(() => ({
     // right: '1.3rem',
     top: '.2rem',
     height: 'fit-content'
+  },
+  formControl: {
+    display: 'flex',
+    width: 'inherit',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: 0,
+    padding: 0
   }
 }));
 
@@ -33,6 +36,11 @@ export default function LeftDrawer({ state, drawerOpen, drawerClose }) {
   const classes = useStyles();
   const color = ColorTheme();
   const [expanded, setExpanded] = React.useState(false);
+  const [value, setValue] = React.useState('Component');
+
+  const handleToggle = (event) => {
+    setValue(event.target.value);
+  };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -76,55 +84,29 @@ export default function LeftDrawer({ state, drawerOpen, drawerClose }) {
             // border: '1px solid #1E88E5'
           }}
         >
-          <Typography variant="h4" align="center" mx={2}>
+          <FormControl className={classes.formControl}>
+            <FormLabel id="demo-controlled-radio-buttons-group">Library</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={value}
+              onChange={handleToggle}
+            >
+              <FormControlLabel value="Component" control={<Radio />} label="Component" />
+              <FormControlLabel value="System" control={<Radio />} label="System" />
+            </RadioGroup>
+          </FormControl>
+          {/* <Typography variant="h4" align="center" mx={2}>
             Component Library
-          </Typography>
-          <Box mt={2}>
-            <Components />
-          </Box>
+          </Typography> */}
+          {value === 'Component' ? (
+            <Box mt={2}>
+              <Components />
+            </Box>
+          ) : (
+            <Box></Box>
+          )}
         </Box>
-        {/* <Box sx={{ display: state ? 'block' : 'none', width: state ? 'inherit' : '0px', overflow: 'auto', marginTop:"1rem" }}>
-                        <>
-                                    <Accordion
-                                        className={classes.accordion}
-                                        expanded={expanded === 'panel1'}
-                                        onChange={handleChange('panel1')}
-                                    >
-                                        <AccordionSummary
-                                            sx={{
-                                                '& .MuiAccordionSummary-content': { margin: '0px' }
-                                            }}
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1bh-content"
-                                            id="panel1bh-header"
-                                        >
-                                            <Typography sx={{ width: 'auto', flexShrink: 0 }}> Component Library</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Components />
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion
-                                        className={classes.accordion}
-                                        expanded={expanded === 'panel2'}
-                                        onChange={handleChange('panel2')}
-                                    >
-                                        <AccordionSummary
-                                            sx={{ margin: '0px' }}
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2bh-content"
-                                            id="panel2bh-header"
-                                        >
-                                            <Typography sx={{ width: 'auto', flexShrink: 0 }}>System Library</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <ComponentList />
-                                        </AccordionDetails>
-                                    </Accordion>
-                                
-                        </>
-                   
-                </Box> */}
       </Box>
     </React.Fragment>
   );

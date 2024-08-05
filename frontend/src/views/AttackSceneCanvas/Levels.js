@@ -89,7 +89,7 @@ export default function Levels() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addAttackNode, setNodes, setEdges } = useStore(selector, shallow);
   const dispatch = useDispatch();
   const { levelDts } = useSelector((state) => state?.currentId);
-  console.log('levelDts', levelDts);
+  // console.log('levelDts', levelDts);
   useEffect(() => {
     setNodes([]);
     setEdges([]);
@@ -108,7 +108,7 @@ export default function Levels() {
       addAttackNode(newNode);
     }, 500);
   }, [levelDts]);
-  console.log('nodes', nodes);
+  // console.log('nodes', nodes);
   const handleBack = () => dispatch(closeAll());
 
   return (

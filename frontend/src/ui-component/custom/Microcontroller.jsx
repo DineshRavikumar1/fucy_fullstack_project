@@ -3,7 +3,7 @@ import { Handle, NodeResizer, Position } from 'reactflow';
 import CustomHandle from '../CustomGates/CustomHandle';
 
 export default function MicroController({ data }) {
-  console.log('data', data);
+  //   console.log('data', data);
   return (
     <>
       <NodeResizer />

@@ -6,6 +6,23 @@ import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import ColorTheme from '../../../../store/ColorTheme';
 import { NavLink } from 'react-router-dom';
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
+import AttackIcon from '../../../../assets/icons/attack.png';
+import ItemIcon from '../../../../assets/icons/item.png';
+import DamageIcon from '../../../../assets/icons/damage.png';
+import ThreatIcon from '../../../../assets/icons/threat.png';
+import CybersecurityIcon from '../../../../assets/icons/cybersecurity.png';
+import RiskIcon from '../../../../assets/icons/risk.png';
+
+const imageComponents = {
+  AttackIcon,
+  ItemIcon,
+  DamageIcon,
+  ThreatIcon,
+  CybersecurityIcon,
+  RiskIcon
+};
 
 export default function LeftSection() {
   const color = ColorTheme();
@@ -13,12 +30,102 @@ export default function LeftSection() {
   const [selectedMenu, setSelectedMenu] = useState(null);
 
   const menuItems = [
-    { name: 'File', options: ['New', 'Open', 'Save', 'Exit'] },
-    { name: 'Edit', options: ['Undo', 'Redo', 'Cut', 'Copy', 'Paste'] },
-    { name: 'View', options: ['Zoom In', 'Zoom Out', 'Full Screen'] },
-    { name: 'Select', options: ['Select All', 'Deselect All'] },
-    { name: 'Insert', options: ['Image', 'Table', 'Link'] }
+    {
+      name: 'File',
+      options: [
+        { label: 'New', action: () => console.log('New') },
+        { label: 'Open', action: () => console.log('Open') },
+        { label: 'Save', action: () => console.log('Save') },
+        { label: 'Exit', action: () => console.log('Exit') }
+      ]
+    },
+    {
+      name: 'Edit',
+      options: [
+        { label: 'Undo', action: () => console.log('Undo') },
+        { label: 'Redo', action: () => console.log('Redo') },
+        { label: 'Cut', action: () => console.log('Cut') },
+        { label: 'Copy', action: () => console.log('Copy') },
+        { label: 'Paste', action: () => console.log('Paste') }
+      ]
+    },
+    {
+      name: 'View',
+      options: [
+        { label: 'Zoom In', action: () => console.log('Zoom In') },
+        { label: 'Zoom Out', action: () => console.log('Zoom Out') },
+        { label: 'Full Screen', action: () => console.log('Full Screen') }
+      ]
+    },
+    {
+      name: 'Select',
+      options: [
+        { label: 'Select All', action: () => console.log('Select All') },
+        { label: 'Deselect All', action: () => console.log('Deselect All') }
+      ]
+    },
+    {
+      name: 'Insert',
+      options: [
+        { label: 'Image', action: () => console.log('Image') },
+        { label: 'Table', action: () => console.log('Table') },
+        { label: 'Link', action: () => console.log('Link') }
+      ]
+    },
+    {
+      icon: <InfoIcon />,
+      options: [
+        {
+          label: 'Item Definition',
+          value: '1',
+          icon: 'ItemIcon'
+        },
+        {
+          label: 'Damage Scenarios',
+          value: '3',
+          icon: 'DamageIcon'
+        },
+        {
+          label: 'Threat Scenarios',
+          value: '4',
+          icon: 'ThreatIcon'
+        },
+        {
+          label: 'Attack Path Analysis',
+          value: '5',
+          icon: 'AttackIcon'
+        },
+        {
+          label: 'Risk Treatment and Determination',
+          value: '6',
+          icon: 'RiskIcon'
+        },
+        {
+          label: 'Cybersecurity Goals and Requirements',
+          value: '7',
+          icon: 'CybersecurityIcon'
+        }
+      ]
+    }
   ];
+
+  const getImageLabel = (item) => {
+    const Image = imageComponents[item?.icon];
+    const maxLength = 40;
+    const isLongLabel = item?.label.length > maxLength;
+    const displayLabel = isLongLabel ? `${item.label.slice(0, maxLength)}...` : item.label;
+
+    return (
+      <Box display="flex" alignItems="center" justifyContent="flex-start" gap={2}>
+        {Image ? <img src={Image} alt={item.label} style={{ height: '20px', width: '20px' }} /> : null}
+        <Tooltip title={item.label} arrow disableHoverListener={!isLongLabel}>
+          <Typography variant="body2" sx={{ fontSize: 12, color: color?.tabContentClr, fontFamily: 'Inter' }}>
+            {displayLabel}
+          </Typography>
+        </Tooltip>
+      </Box>
+    );
+  };
 
   const handleMenuOpen = (event, index) => {
     setAnchorEl(event.currentTarget);
@@ -39,23 +146,43 @@ export default function LeftSection() {
         <Box key={index}>
           <ClickAwayListener onClickAway={handleMenuClose}>
             <div>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  cursor: 'pointer',
-                  color: color?.title,
-                  mx: 0.5,
-                  px: 0.5,
-                  '&:hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                    p: 0.5
-                  }
-                }}
-                onMouseEnter={(e) => handleMenuOpen(e, index)}
-              >
-                {item.name}
-              </Typography>
+              {item.name ? (
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    cursor: 'pointer',
+                    color: color?.title,
+                    mx: 0.5,
+                    px: 0.5,
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                      p: 0.5
+                    }
+                  }}
+                  onMouseEnter={(e) => handleMenuOpen(e, index)}
+                >
+                  {item.name}
+                </Typography>
+              ) : (
+                <Box
+                  sx={{
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: color?.title,
+                    mx: 0.5,
+                    px: 0.5,
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                      p: 0.5
+                    }
+                  }}
+                  onMouseEnter={(e) => handleMenuOpen(e, index)}
+                >
+                  {item.icon}
+                </Box>
+              )}
               <Menu
                 anchorEl={selectedMenu === index ? anchorEl : null}
                 open={selectedMenu === index && Boolean(anchorEl)}
@@ -79,8 +206,14 @@ export default function LeftSection() {
                 }}
               >
                 {item.options.map((option, i) => (
-                  <MenuItem key={i} onClick={handleMenuClose}>
-                    {option}
+                  <MenuItem
+                    key={i}
+                    onClick={() => {
+                      option.action && option.action(); // Ensure option.action exists before invoking
+                      handleMenuClose();
+                    }}
+                  >
+                    {item.icon ? getImageLabel(option) : option.label}
                   </MenuItem>
                 ))}
               </Menu>

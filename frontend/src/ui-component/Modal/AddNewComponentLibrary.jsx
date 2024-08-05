@@ -26,7 +26,7 @@ export default function AddNewComponentLibrary({ open, handleClose }) {
     create(templateDetails)
       .then((res) => {
         if (res) {
-          console.log('res in create', res);
+          // console.log('res in create', res);
           setTimeout(() => {
             setOpenMsg(true);
             setMessage('Created Successfully');

@@ -6,7 +6,6 @@ export default function AlertMessage({ open, message, setOpen, success }) {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 

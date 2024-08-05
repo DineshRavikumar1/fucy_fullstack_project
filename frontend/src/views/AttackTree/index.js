@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React from 'react';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +9,7 @@ import Properties from './Properties';
 import Levels from '../AttackSceneCanvas/Levels';
 
 const AttackTree = ({ modal }) => {
-  console.log('modal in attack tree', modal);
+  // console.log('modal in attack tree', modal);
   const { attackScene, isLevelOpen } = useSelector((state) => state?.currentId);
   // console.log('attackScene', attackScene)
   const dispatch = useDispatch();

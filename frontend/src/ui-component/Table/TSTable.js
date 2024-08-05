@@ -106,7 +106,7 @@ export default function Tstable() {
         ?.map((dt) =>
           dt?.cyberLosses?.map((pr, prin) =>
             pr?.props?.map((pp, pin) => {
-              console.log('pp', pp);
+              // console.log('pp', pp);
               return {
                 id: `TS0${prin}${pin}`,
                 name: `${threatType(pp)}  ${pp} of ${pr?.name} for Damage Scene ${dt?.id}`,
@@ -117,8 +117,6 @@ export default function Tstable() {
           )
         )
         .flat(2);
-
-      console.log('modal in effect12', mod1);
       const mod2 = modal?.scenarios[2]?.subs[1]?.scenes;
       // console.log('mod2', mod2)
       const combained = mod1.concat(mod2);

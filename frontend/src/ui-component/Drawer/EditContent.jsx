@@ -19,14 +19,14 @@ const EditContent = ({ selectedNode, nodes, setNodes, setSelectedNode, details, 
     selected.properties = details?.properties;
     Nodestate[index] = selected;
     mod.template.nodes = Nodestate;
-    console.log('mod', mod);
-    updateModal(mod)
-      .then((res) => {
-        console.log('res', res);
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
+    // console.log('mod', mod);
+    updateModal(mod);
+    // .then((res) => {
+    //   console.log('res', res);
+    // })
+    // .catch((err) => {
+    //   console.log('err', err);
+    // });
   };
   const handleDelete = (valueToDelete) => () => {
     setDetails((prevDetails) => ({

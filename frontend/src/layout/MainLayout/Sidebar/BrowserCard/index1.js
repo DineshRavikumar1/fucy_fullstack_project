@@ -239,9 +239,7 @@ const BrowserCard = ({ modals }) => {
     dispatch(closeAll());
   };
   const handleSwicthDsTable = (name) => {
-    console.log('name', name);
     if (name.includes('Derivations')) {
-      console.log('here');
       dispatch(DerivationTableOpen());
     }
     if (name.includes('Collection & Impact Ratings')) {
@@ -269,7 +267,7 @@ const BrowserCard = ({ modals }) => {
   };
 
   const handleRightClick = (e, name) => {
-    console.log('e', e);
+    // console.log('e', e);
     e.preventDefault();
     if (name.toLowerCase().includes('cybersecurity')) {
       setAnchorEl(name);

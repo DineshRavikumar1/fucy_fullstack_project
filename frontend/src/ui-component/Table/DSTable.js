@@ -19,6 +19,7 @@ import SelectLosses from '../Modal/SelectLosses';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import ColorTheme from '../../store/ColorTheme';
+import toast, { Toaster } from 'react-hot-toast';
 
 const selector = (state) => ({
   modal: state.modal,
@@ -114,6 +115,8 @@ export default function DsTable() {
     getModalById(id);
   }, [id]);
 
+  const notify = (message, status) => toast[status](message);
+
   const Head = React.useCallback(() => {
     if (stakeHolder) {
       return [
@@ -196,7 +199,7 @@ export default function DsTable() {
       const mod2 = modal?.scenarios[1]?.subs[1]?.scenes?.map((ls) => ({
         id: ls?.id,
         name: ls?.name,
-        Description: ls?.name,
+        Description: ls?.Description,
         cyberLosses: ls?.cyberLosses ? ls.cyberLosses : [],
         impacts: {
           Financial: ls?.impacts?.Financial ? ls?.impacts?.Financial : '',
@@ -350,6 +353,7 @@ export default function DsTable() {
     // console.log('ratio', ratio)
     return avgImpact(ratio);
   }, []);
+  console.log('rows', filtered);
   // console.log('selectedRow', selectedRow)
   return (
     <Box
@@ -569,7 +573,7 @@ export default function DsTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      {openDs && <AddDamageScenarios open={openDs} handleClose={handleCloseDs} modal={modal} id={id} rows={rows} />}
+      {openDs && <AddDamageScenarios open={openDs} handleClose={handleCloseDs} modal={modal} id={id} rows={rows} notify={notify} />}
       {openCl && (
         <SelectLosses
           open={openCl}
@@ -585,6 +589,7 @@ export default function DsTable() {
           id={id}
         />
       )}
+      <Toaster position="top-right" reverseOrder={false} />
     </Box>
   );
 }

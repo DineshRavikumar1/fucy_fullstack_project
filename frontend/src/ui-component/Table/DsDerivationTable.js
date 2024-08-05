@@ -78,12 +78,7 @@ export default function DsDerivationTable() {
 
   React.useEffect(() => {
     if (modal.scenarios) {
-      console.log('modal', modal);
       const mod = modal?.scenarios[1]?.subs[0]?.Details;
-      // console.log('mod2', mod2)
-      // const combained = mod1.concat(mod2);
-      // console.log('combained', combained)
-      console.log('mod', mod);
       setRows(mod);
       setFiltered(mod);
     }
