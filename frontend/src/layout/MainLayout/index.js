@@ -48,7 +48,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
         duration: theme.transitions.duration.leavingScreen
       }),
       [theme.breakpoints.up('md')]: {
-        marginLeft: -drawerWidth,
+        // marginLeft: -drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
         marginTop: isclose == true ? `0` : navbarHeight
       },

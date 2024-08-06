@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -89,9 +90,7 @@ export default function SelectLosses({
     const Index = Rows.findIndex((rw) => rw.id === selectedRow.id);
     Rows[Index] = selectedRow;
     const changes = Rows.map((rw) => {
-      //eslint-disable-next-line
-      const { Description, ...rest } = rw;
-      return rest;
+      return rw;
     });
 
     const threat = mod?.scenarios[2]?.subs[0];

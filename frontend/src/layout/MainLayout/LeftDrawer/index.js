@@ -1,11 +1,12 @@
 /* eslint-disable */
 import * as React from 'react';
 import { Box } from '@mui/system';
-import { Radio, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel } from '@mui/material';
+import { Radio, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Divider } from '@mui/material';
 import { ArrowSquareLeft, ArrowSquareRight } from 'iconsax-react';
 import Components from '../../../views/NodeList';
 import { makeStyles } from '@mui/styles';
 import ColorTheme from '../../../store/ColorTheme';
+import TemplateList from '../../../views/Libraries';
 
 const useStyles = makeStyles(() => ({
   accordion: {
@@ -29,6 +30,15 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     margin: 0,
     padding: 0
+  },
+  radioGroup: {
+    '& .MuiRadio-root': { padding: '4px' }
+  },
+  divider: {
+    // height: '1rem',
+    margin: '5px 0',
+    borderBottom: '1px solid gray',
+    boxShadow: '0px 0px 3px gray'
   }
 }));
 
@@ -85,17 +95,18 @@ export default function LeftDrawer({ state, drawerOpen, drawerClose }) {
           }}
         >
           <FormControl className={classes.formControl}>
-            <FormLabel id="demo-controlled-radio-buttons-group">Library</FormLabel>
+            {/* <FormLabel id="demo-controlled-radio-buttons-group">Library</FormLabel> */}
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               value={value}
               onChange={handleToggle}
             >
-              <FormControlLabel value="Component" control={<Radio />} label="Component" />
-              <FormControlLabel value="System" control={<Radio />} label="System" />
+              <FormControlLabel value="Component" control={<Radio size="small" />} label="Component" className={classes.radioGroup} />
+              <FormControlLabel value="System" control={<Radio size="small" />} label="System" className={classes.radioGroup} />
             </RadioGroup>
           </FormControl>
+          {/* <Divider className={classes.divider} /> */}
           {/* <Typography variant="h4" align="center" mx={2}>
             Component Library
           </Typography> */}
@@ -104,7 +115,9 @@ export default function LeftDrawer({ state, drawerOpen, drawerClose }) {
               <Components />
             </Box>
           ) : (
-            <Box></Box>
+            <Box>
+              <TemplateList />
+            </Box>
           )}
         </Box>
       </Box>

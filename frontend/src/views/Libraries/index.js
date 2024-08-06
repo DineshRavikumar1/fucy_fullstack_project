@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import '../index.css';
@@ -11,7 +12,7 @@ const selector = (state) => ({
   fetchAPI: state.fetchAPI
 });
 
-export default function ComponentList() {
+export default function TemplateList() {
   const { template, fetchAPI } = useStore(selector, shallow);
 
   // console.log('template', template)
@@ -30,13 +31,13 @@ export default function ComponentList() {
 
   return (
     <>
-      <Box component="nav" aria-label="sidebar" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+      <Box component="nav" aria-label="sidebar" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {template.map((text, index) => (
           <div key={index} className={`library ${text.name}`} onDragStart={(event) => onDragStart(event, text)} draggable>
             {text['name']}
           </div>
         ))}
-        <AddIcon sx={{ fontSize: 20, color: 'blue', cursor: 'pointer' }} onClick={() => window.location.reload()} />
+        {/* <AddIcon sx={{ fontSize: 20, color: 'blue', cursor: 'pointer' }} onClick={() => window.location.reload()} /> */}
       </Box>
     </>
   );
