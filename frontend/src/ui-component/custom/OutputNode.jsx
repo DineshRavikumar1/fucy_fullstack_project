@@ -1,23 +1,18 @@
-import React from "react";
+import React from 'react';
 import { Handle, NodeResizer, Position } from 'reactflow';
 
-const OutputNode = ({ data, isConnectable,type}) => {
+const OutputNode = ({ data, isConnectable, type }) => {
   return (
     <>
-        <NodeResizer />
+      <NodeResizer />
       <div
         className={`my-custom-node ${type}`}
-        style={{ 
+        style={{
           ...data?.style
-           }}
+        }}
       >
-          <div>{data?.label}</div>
-        <Handle
-          className="handle"
-          type="target"
-          position={Position.Top}
-          isConnectable={isConnectable}
-        />
+        <div>{data?.label}</div>
+        <Handle className="handle" type="target" position={Position.Top} isConnectable={isConnectable} />
       </div>
     </>
   );

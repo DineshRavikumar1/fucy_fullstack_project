@@ -11,7 +11,7 @@ const CustomEdge = ({
   targetPosition,
   style = {},
   arrowHeadType,
-  markerEndId,
+  markerEndId
   // data,
 }) => {
   const [edgePath, setEdgePath] = useState('');
@@ -23,7 +23,7 @@ const CustomEdge = ({
       sourcePosition,
       targetX,
       targetY,
-      targetPosition,
+      targetPosition
     });
     setEdgePath(newPath);
   }, [sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition]);
@@ -36,7 +36,7 @@ const CustomEdge = ({
       targetX: event.clientX,
       targetY: event.clientY,
       sourcePosition,
-      targetPosition,
+      targetPosition
     });
     setEdgePath(newPath);
   };
@@ -52,21 +52,17 @@ const CustomEdge = ({
         onMouseDown={(event) => {
           event.stopPropagation();
           document.addEventListener('mousemove', handleDrag);
-          document.addEventListener('mouseup', () => {
-            document.removeEventListener('mousemove', handleDrag);
-          }, { once: true });
+          document.addEventListener(
+            'mouseup',
+            () => {
+              document.removeEventListener('mousemove', handleDrag);
+            },
+            { once: true }
+          );
         }}
       />
       {arrowHeadType && (
-        <marker
-          id={markerEndId}
-          markerWidth="15"
-          markerHeight="15"
-          refX="0"
-          refY="3"
-          orient="auto"
-          markerUnits="strokeWidth"
-        >
+        <marker id={markerEndId} markerWidth="15" markerHeight="15" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
           <path d="M0,0 L0,6 L6,3 z" fill="#b1b1b7" />
         </marker>
       )}

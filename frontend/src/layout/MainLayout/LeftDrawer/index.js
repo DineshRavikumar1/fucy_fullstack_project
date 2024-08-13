@@ -1,130 +1,126 @@
 /* eslint-disable */
 import * as React from 'react';
 import { Box } from '@mui/system';
+import { Radio, Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Divider } from '@mui/material';
 import { ArrowSquareLeft, ArrowSquareRight } from 'iconsax-react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ComponentList from '../../../views/Libraries';
 import Components from '../../../views/NodeList';
 import { makeStyles } from '@mui/styles';
 import ColorTheme from '../../../store/ColorTheme';
+import TemplateList from '../../../views/Libraries';
 
 const useStyles = makeStyles(() => ({
-    accordion: {
-        width: '210px',
-        backgroundColor: 'transparent',
-        '&.MuiPaper-root ': {
-            margin: '0px !important'
-        }
-    },
-    arrow: {
-        cursor: 'pointer',
-        position: 'relative',
-        // right: '1.3rem',
-        top: '.2rem',
-        height: 'fit-content'
+  accordion: {
+    width: '210px',
+    backgroundColor: 'transparent',
+    '&.MuiPaper-root ': {
+      margin: '0px !important'
     }
+  },
+  arrow: {
+    cursor: 'pointer',
+    position: 'relative',
+    // right: '1.3rem',
+    top: '.2rem',
+    height: 'fit-content'
+  },
+  formControl: {
+    display: 'flex',
+    width: 'inherit',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: 0,
+    padding: 0
+  },
+  radioGroup: {
+    '& .MuiRadio-root': { padding: '4px' }
+  },
+  divider: {
+    // height: '1rem',
+    margin: '5px 0',
+    borderBottom: '1px solid gray',
+    boxShadow: '0px 0px 3px gray'
+  }
 }));
 
 export default function LeftDrawer({ state, drawerOpen, drawerClose }) {
-    const classes = useStyles();
-    const color = ColorTheme();
-    const [expanded, setExpanded] = React.useState(false);
+  const classes = useStyles();
+  const color = ColorTheme();
+  const [expanded, setExpanded] = React.useState(false);
+  const [value, setValue] = React.useState('Component');
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-    return (
-        <React.Fragment>
-            <Box
-                sx={{
-                    backgroundColor: color?.leftbarBG,
-                    // borderRight: '1px solid #90CAF9',
-                    position: 'sticky',
-                    float: 'left',
-                    // left: '50rem',
-                    transition: 'width 0.5s',
-                    width: state ? '160px' : '0px',
-                    height: 'inherit',
-                    zIndex: 1000,
-                    display: 'flex',
-                    flexDirection: 'column'
-                    // pr:1
-                }}
+  const handleToggle = (event) => {
+    setValue(event.target.value);
+  };
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  return (
+    <React.Fragment>
+      <Box
+        sx={{
+          backgroundColor: color?.leftbarBG,
+          //   borderRight: '1px solid gray',
+          boxShadow: '0px 1px 5px gray',
+          position: 'sticky',
+          float: 'left',
+          // left: '50rem',
+          transition: 'width 0.5s',
+          width: state ? '160px' : '0px',
+          height: 'inherit',
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column'
+          // pr:1
+        }}
+      >
+        {!state ? (
+          <Box onClick={drawerOpen} className={classes.arrow}>
+            <ArrowSquareRight size="20px" color={color?.iconColor} />
+          </Box>
+        ) : (
+          <Box onClick={drawerClose} className={classes.arrow}>
+            <ArrowSquareLeft size="20px" color={color?.iconColor} />
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            display: state ? 'block' : 'none',
+            width: state ? 'inherit' : '0px',
+            overflow: 'auto',
+            marginTop: '1rem',
+            scrollbarWidth: 'none'
+            // border: '1px solid #1E88E5'
+          }}
+        >
+          <FormControl className={classes.formControl}>
+            {/* <FormLabel id="demo-controlled-radio-buttons-group">Library</FormLabel> */}
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={value}
+              onChange={handleToggle}
             >
-                {!state ? (
-                    <Box onClick={drawerOpen} className={classes.arrow}>
-                        <ArrowSquareRight size="20px" color={color?.iconColor} />
-                    </Box>
-                ) : (
-                    <Box onClick={drawerClose} className={classes.arrow}>
-                        <ArrowSquareLeft size="20px" color={color?.iconColor} />
-                    </Box>
-                )}
-
-                <Box
-                    sx={{
-                        display: state ? 'block' : 'none',
-                        width: state ? 'inherit' : '0px',
-                        overflow: 'auto',
-                        marginTop: '1rem',
-                        scrollbarWidth: 'none',
-                        border: '1px solid #1E88E5'
-                    }}
-                >
-                    <Typography variant="h4" align="center">
-                        Component Library
-                    </Typography>
-                    <Box mt={2}>
-                        <Components />
-                    </Box>
-                </Box>
-                {/* <Box sx={{ display: state ? 'block' : 'none', width: state ? 'inherit' : '0px', overflow: 'auto', marginTop:"1rem" }}>
-                        <>
-                                    <Accordion
-                                        className={classes.accordion}
-                                        expanded={expanded === 'panel1'}
-                                        onChange={handleChange('panel1')}
-                                    >
-                                        <AccordionSummary
-                                            sx={{
-                                                '& .MuiAccordionSummary-content': { margin: '0px' }
-                                            }}
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1bh-content"
-                                            id="panel1bh-header"
-                                        >
-                                            <Typography sx={{ width: 'auto', flexShrink: 0 }}> Component Library</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Components />
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <Accordion
-                                        className={classes.accordion}
-                                        expanded={expanded === 'panel2'}
-                                        onChange={handleChange('panel2')}
-                                    >
-                                        <AccordionSummary
-                                            sx={{ margin: '0px' }}
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel2bh-content"
-                                            id="panel2bh-header"
-                                        >
-                                            <Typography sx={{ width: 'auto', flexShrink: 0 }}>System Library</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <ComponentList />
-                                        </AccordionDetails>
-                                    </Accordion>
-                                
-                        </>
-                   
-                </Box> */}
+              <FormControlLabel value="Component" control={<Radio size="small" />} label="Component" className={classes.radioGroup} />
+              <FormControlLabel value="System" control={<Radio size="small" />} label="System" className={classes.radioGroup} />
+            </RadioGroup>
+          </FormControl>
+          {/* <Divider className={classes.divider} /> */}
+          {/* <Typography variant="h4" align="center" mx={2}>
+            Component Library
+          </Typography> */}
+          {value === 'Component' ? (
+            <Box mt={2}>
+              <Components />
             </Box>
-        </React.Fragment>
-    );
+          ) : (
+            <Box>
+              <TemplateList />
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </React.Fragment>
+  );
 }

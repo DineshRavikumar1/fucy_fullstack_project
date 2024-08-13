@@ -15,42 +15,42 @@ const ErrorPage = Loadable(lazy(() => import('../views/ErrorPage')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-    path: '/',
-    element: (
-        <RequireAuth>
-            <MainLayout />
-        </RequireAuth>
-    ),
-    children: [
-        {
-            path: '/home',
-            element: <Home />
-        },
-        {
-            path: 'Modals',
-            element: <MainCanvas />
-        },
-        {
-            path: 'Modals/:id',
-            element: <MainCanvas />
-        },
-        {
-            path: 'career',
-            element: <Career />
-        },
-        {
-            path: 'contact',
-            element: <Contact />
-        },
-        {
-            path: 'about',
-            element: <About />
-        },
-        {
-            path: '*',
-            element: <ErrorPage />
-        }
-    ]
+  path: '/',
+  element: (
+    <RequireAuth>
+      <MainLayout />
+    </RequireAuth>
+  ),
+  children: [
+    {
+      path: '/home',
+      element: <Home />
+    },
+    {
+      path: 'Models',
+      element: <MainCanvas />
+    },
+    {
+      path: 'Models/:id',
+      element: <MainCanvas />
+    },
+    {
+      path: 'career',
+      element: <Career />
+    },
+    {
+      path: 'contact',
+      element: <Contact />
+    },
+    {
+      path: 'about',
+      element: <About />
+    },
+    {
+      path: '*',
+      element: <ErrorPage />
+    }
+  ]
 };
 
 export default MainRoutes;
