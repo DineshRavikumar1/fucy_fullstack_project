@@ -21,7 +21,7 @@ const AttackTree = ({ modal }) => {
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         {!isLevelOpen && <KeyboardBackspaceRoundedIcon sx={{ float: 'left', cursor: 'pointer', ml: 1 }} onClick={handleBack} />}
-        <Paper elevation={3} sx={{ height: '75svh' }}>
+        <Paper elevation={3} sx={{ height: '83svh' }}>
           <Grid container sx={{ height: 'inherit' }}>
             <Grid item sx={{ border: '1px solid black' }} sm={8} md={8} lg={8}>
               {!isLevelOpen ? attackScene && <Home attackScene={attackScene} /> : <Levels />}

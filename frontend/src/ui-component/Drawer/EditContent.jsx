@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Chip, InputLabel, Box, TextField, Autocomplete, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Chip, InputLabel, Box, TextField, Autocomplete, Button, Checkbox, FormControlLabel } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -8,8 +8,9 @@ import TabPanel from '@mui/lab/TabPanel';
 const Properties = ['Confidentiality', 'Integrity', 'Authenticity', 'Authorization', 'Non-repudiation', 'Availability'];
 
 const EditContent = ({ selectedNode, nodes, setNodes, setSelectedNode, details, setDetails, modal, updateModal }) => {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = useState('1');
 
+  console.log('selectedNode', selectedNode);
   const handleUpdate = () => {
     const mod = { ...modal };
     const Nodestate = [...nodes];
@@ -17,6 +18,7 @@ const EditContent = ({ selectedNode, nodes, setNodes, setSelectedNode, details, 
     const index = nodes?.findIndex((nd) => nd?.id === selectedNode?.id);
     selected.data.label = details?.name;
     selected.properties = details?.properties;
+    selected.isAsset = details?.isAsset;
     Nodestate[index] = selected;
     mod.template.nodes = Nodestate;
     // console.log('mod', mod);
@@ -39,8 +41,17 @@ const EditContent = ({ selectedNode, nodes, setNodes, setSelectedNode, details, 
     setValue(newValue);
   };
 
-  // console.log('selectedNode', selectedNode)
+  const handleChecked = (event) => {
+    // console.log('selectedNode', selectedNode);
 
+    const Nodestate = [...nodes];
+    const selected = nodes?.find((nd) => nd?.id === selectedNode?.id);
+    const index = nodes?.findIndex((nd) => nd?.id === selectedNode?.id);
+    selected.isAsset = event.target.checked;
+    Nodestate[index] = selected;
+    setNodes(Nodestate);
+  };
+  // console.log('nodes', nodes);
   useEffect(() => {
     setDetails({
       ...details,
@@ -125,6 +136,7 @@ const EditContent = ({ selectedNode, nodes, setNodes, setSelectedNode, details, 
               }
               renderInput={(params) => <TextField {...params} variant="outlined" />}
             />
+            <FormControlLabel control={<Checkbox onChange={handleChecked} checked={selectedNode?.isAsset} />} label="Asset" />
             <Button variant="outlined" onClick={handleUpdate}>
               Update
             </Button>

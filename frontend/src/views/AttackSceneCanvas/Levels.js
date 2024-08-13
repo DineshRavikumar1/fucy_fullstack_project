@@ -112,7 +112,7 @@ export default function Levels() {
   const handleBack = () => dispatch(closeAll());
 
   return (
-    <div style={{ height: '75svh', background: 'white' }}>
+    <div style={{ height: '100%', background: 'white' }}>
       <ReactFlowProvider>
         {/* <div className="reactflow-wrapper" ref={reactFlowWrapper}> */}
         <ReactFlow

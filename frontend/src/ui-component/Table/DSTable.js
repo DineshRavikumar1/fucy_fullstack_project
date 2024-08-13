@@ -20,6 +20,7 @@ import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import ColorTheme from '../../store/ColorTheme';
 import toast, { Toaster } from 'react-hot-toast';
+import { colorPicker, colorPickerTab } from './constraints';
 
 const selector = (state) => ({
   modal: state.modal,
@@ -280,42 +281,7 @@ export default function DsTable() {
   };
   // console.log('rows', rows);
 
-  const colorPickerTab = (value) => {
-    if (value === 'Severe') {
-      return 'red';
-    }
-    if (value === 'Major') {
-      return 'orange';
-    }
-    if (value === 'Moderate') {
-      return 'yellow';
-    }
-    if (value === 'Negligible') {
-      return '#65B741';
-    }
-    return 'white';
-  };
-
   // console.log('modal12', modal);
-  const colorPicker = (pr) => {
-    // console.log('pr', pr);
-    switch (pr) {
-      case 'Confidentiality':
-        return 'red';
-      case 'Integrity':
-        return 'green';
-      case 'Availability':
-        return 'yellow';
-      case 'Authenticity':
-        return 'blue';
-      case 'Authorization':
-        return 'violet';
-      case 'Non-repudiation':
-        return 'gray';
-      default:
-        return 'black';
-    }
-  };
 
   const options = [
     { value: 'Severe', label: 'Severe' },

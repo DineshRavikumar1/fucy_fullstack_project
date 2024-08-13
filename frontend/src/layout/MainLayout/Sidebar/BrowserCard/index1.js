@@ -1,3 +1,4 @@
+/* eslint-disable */
 // material-ui
 import {
   styled
@@ -52,6 +53,8 @@ import LayoutIcon from '../../../../assets/icons/layout.png';
 import ModelIcon from '../../../../assets/icons/model.png';
 import ColorTheme from '../../../../store/ColorTheme';
 import { NavLink } from 'react-router-dom';
+import DraggableItem from './DraggableItem';
+import DraggableTreeItem from './DraggableItem';
 
 const imageComponents = {
   AttackIcon,
@@ -315,6 +318,7 @@ const BrowserCard = ({ modals }) => {
       <Typography variant="h4" sx={{ color: color?.tabContentClr }}>
         Projects
       </Typography>
+      <DraggableItem />
       <CardStyle sx={{ overflowY: 'auto', backgroundColor: color?.sidebarInnerBG }}>
         <CardContent sx={{ p: 2, color: color?.sidebarContent }}>
           <TreeView
@@ -398,15 +402,27 @@ const BrowserCard = ({ modals }) => {
                                 {sub?.name === 'Threat Scenarios' &&
                                   sub?.losses?.map((dt) =>
                                     dt?.cyberLosses?.map((pr, prin) =>
-                                      pr?.props?.map((pp, pin) => (
-                                        <TreeItem
-                                          key={`${dt?.id}${prin}${pin}`}
-                                          nodeId={`${dt?.id}${prin}${pin}`}
-                                          label={`[TS00${prin}${pin}] ${threatType(pp)} for the loss of ${pp} of ${
-                                            pr?.name
-                                          } for Damage Scene ${dt?.id}`}
-                                        ></TreeItem>
-                                      ))
+                                      pr?.props?.map((pp, pin) => {
+                                        const label = `[TS00${prin}${pin}] ${threatType(pp)} for the loss of ${pp} of ${
+                                          pr?.name
+                                        } for Damage Scene ${dt?.id}`;
+                                        return (
+                                          <DraggableTreeItem
+                                            key={`${dt?.id}${prin}${pin}`}
+                                            nodeId={`${dt?.id}${prin}${pin}`}
+                                            label={label}
+                                            onDragStart={(e) => onDragStart(e, label)}
+                                          />
+                                          // <TreeItem
+                                          //   key={`${dt?.id}${prin}${pin}`}
+                                          //   nodeId={`${dt?.id}${prin}${pin}`}
+                                          //   label={`[TS00${prin}${pin}] ${threatType(pp)} for the loss of ${pp} of ${
+                                          //     pr?.name
+                                          //   } for Damage Scene ${dt?.id}`}
+                                          //   draggable
+                                          // ></TreeItem>
+                                        );
+                                      })
                                     )
                                   )}
                                 {sub?.name === 'CyberSecurity Goals and Requirements' &&

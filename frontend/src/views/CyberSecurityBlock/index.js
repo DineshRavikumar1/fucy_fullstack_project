@@ -25,9 +25,7 @@ const selector = (state) => ({
   onNodesChange: state.onCyberNodesChange,
   onEdgesChange: state.onCyberEdgesChange,
   onConnect: state.onCyberConnect,
-  dragAdd: state.dragAdd,
   addNode: state.addCyberNode,
-  dragAddNode: state.dragAddNode,
   setNodes: state.setCyberNodes,
   setEdges: state.setCyberEdges,
   modal: state.modal,
@@ -70,9 +68,7 @@ export default function CyberSecurityBlock() {
     onNodesChange,
     onEdgesChange,
     onConnect,
-    // dragAdd,
-    // dragAddNode,
-    // addNode,
+    addNode,
     setNodes,
     setEdges,
     getModalById
@@ -115,15 +111,14 @@ export default function CyberSecurityBlock() {
       // const file = event.dataTransfer.getData("application/parseFile");
       const cyber = event.dataTransfer.getData('application/cyber');
       // console.log('cyber', cyber);
-      // let parsedNode;
+      // console.log('cyber', cyber);
+      let parsedNode;
       // let parsedTemplate;
-      // if (file) {
-      //   parsedNode = JSON.parse(file);
-      // } else {
-      //   parsedTemplate = JSON.parse(template);
-      // }
+      if (cyber) {
+        parsedNode = JSON.parse(cyber);
+      }
 
-      // if (typeof parsedNode === "undefined" || !parsedNode || typeof parsedTemplate === "undefined" || !parsedTemplate) {
+      // if (typeof parsedNode === 'undefined' || !parsedNode || typeof parsedTemplate === 'undefined' || !parsedTemplate) {
       //   return;
       // }
 
@@ -134,16 +129,53 @@ export default function CyberSecurityBlock() {
       if (parsedNode) {
         const newNode = {
           id: uid(),
-          type: parsedNode.type,
           position,
-          properties: parsedNode.properties,
+          type: 'default',
+          width: 300,
+          height: 70,
           data: {
-            label: parsedNode.data['label'],
-            bgColor: parsedNode.data['bgColor']
+            label: parsedNode,
+            style: {
+              backgroundColor: 'transparent',
+              fontSize: '16px',
+              fontFamily: 'Inter',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              textAlign: 'center',
+              color: 'white',
+              textDecoration: 'none',
+              borderColor: 'black',
+              borderWidth: '2px',
+              borderStyle: 'solid'
+            }
           }
         };
-        // dragAdd(newNode);
-        // console.log('newNode', newNode);
+        // const newNode = {
+        //   id: uid(),
+        //   type: parsedNode.type,
+        //   position,
+        //   properties: parsedNode.properties,
+        //   width: parsedNode?.width,
+        //   height: parsedNode?.height,
+        //   data: {
+        //     label: parsedNode.data['label'],
+        //     style: {
+        //       backgroundColor: parsedNode.data['bgColor'],
+        //       fontSize: '16px',
+        //       fontFamily: 'Inter',
+        //       fontStyle: 'normal',
+        //       fontWeight: 500,
+        //       textAlign: 'center',
+        //       color: 'white',
+        //       textDecoration: 'none',
+        //       borderColor: 'black',
+        //       borderWidth: '2px',
+        //       borderStyle: 'solid'
+        //     }
+        //   }
+        // };
+        addNode(newNode);
+        console.log('newNode', newNode);
       }
 
       // if (parsedTemplate) {
@@ -179,8 +211,9 @@ export default function CyberSecurityBlock() {
     },
     [reactFlowInstance]
   );
+  // console.log('nodes', nodes);
   return (
-    <div style={{ height: '75svh', background: 'white' }}>
+    <div style={{ height: '100%', background: 'white' }}>
       <ReactFlowProvider>
         {/* <div className="reactflow-wrapper" ref={reactFlowWrapper}> */}
         <ReactFlow

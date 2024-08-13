@@ -17,6 +17,8 @@ import { closeAll } from '../../store/slices/CurrentIdSlice';
 import AddThreatScenarios from '../Modal/AddThreatScenario';
 import { Box } from '@mui/system';
 import ColorTheme from '../../store/ColorTheme';
+import { colorPicker, threatType } from './constraints';
+import CircleIcon from '@mui/icons-material/Circle';
 
 const selector = (state) => ({
   modal: state.modal,
@@ -39,25 +41,6 @@ const Head = [
   { id: 13, name: 'Assessment Jurification' }
 ];
 
-const threatType = (value) => {
-  // console.log('value', value)
-  switch (value) {
-    case 'Integrity':
-      return 'Tampering';
-    case 'Confidentiality':
-      return 'Information Disclosure';
-    case 'Availability':
-      return 'Denial';
-    case 'Authenticity':
-      return 'Spoofing';
-    case 'Authorization':
-      return 'Elevation of Privilage';
-    case 'Non-repudiation':
-      return 'Rejection';
-    default:
-      return '';
-  }
-};
 const useStyles = makeStyles({
   div: {
     width: 'max-content'
@@ -104,14 +87,15 @@ export default function Tstable() {
     if (modal.scenarios) {
       const mod1 = modal?.scenarios[2]?.subs[0]?.losses
         ?.map((dt) =>
-          dt?.cyberLosses?.map((pr, prin) =>
-            pr?.props?.map((pp, pin) => {
-              // console.log('pp', pp);
+          dt?.cyberLosses?.map((loss, prin) =>
+            loss?.props?.map((prp, pin) => {
+              console.log('prp', prp);
               return {
                 id: `TS0${prin}${pin}`,
-                name: `${threatType(pp)}  ${pp} of ${pr?.name} for Damage Scene ${dt?.id}`,
-                Description: `This is ${threatType(pp)} occured due to ${pp} in ${pr?.name} for Damage Scene ${dt?.id}`,
-                losses: []
+                name: `${threatType(prp)}  ${prp} of ${loss?.name} for Damage Scene ${dt?.id}`,
+                Description: `This is ${threatType(prp)} occured due to ${prp} in ${loss?.name} for Damage Scene ${dt?.id}`,
+                losses: [],
+                cyber_loss: prp
               };
             })
           )
@@ -206,6 +190,51 @@ export default function Tstable() {
                 <StyledTableCell component="td" scope="row"></StyledTableCell>
                 <StyledTableCell component="td" scope="row">
                   <div className={classes.div}>{row?.Description}</div>
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  <span
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 5
+                    }}
+                  >
+                    <CircleIcon sx={{ fontSize: 14, color: colorPicker(row?.cyber_loss) }} />
+                    <span
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '15px',
+                        width: 'max-content'
+                      }}
+                    >
+                      Loss of {row?.cyber_loss}
+                    </span>
+                  </span>
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  -
                 </StyledTableCell>
               </StyledTableRow>
             ))}

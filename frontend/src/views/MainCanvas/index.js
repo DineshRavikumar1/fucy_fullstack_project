@@ -125,6 +125,7 @@ const nodetypes = {
   default: DefaultNode,
   receiver: CustomNode,
   signal: CustomNode,
+  custom: CustomNode,
   transmitter: CircularNode,
   transceiver: DiagonalNode,
   mcu: MicroController,
@@ -315,6 +316,7 @@ export default function MainCanvas() {
         const newNode = {
           id: uid(),
           type: parsedNode.type,
+          isAsset: false,
           position,
           properties: parsedNode.properties,
           width: parsedNode?.width,
@@ -365,6 +367,7 @@ export default function MainCanvas() {
               }
             },
             type: node.type,
+            isAsset: false,
             position: {
               x: node['position']['x'] + randomPos,
               y: node['position']['y'] + randomPos

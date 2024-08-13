@@ -397,6 +397,13 @@ const useStore = createWithEqualityFn((set, get) => ({
     }));
   },
 
+  addCyberNode: (newNode) => {
+    // console.log('newNode', newNode);
+    set((state) => ({
+      cyberNodes: [...state.cyberNodes, newNode]
+    }));
+  },
+
   dragAddNode: (newNode, newEdge) => {
     // console.log("store",newNode);
     set((state) => ({
@@ -423,13 +430,6 @@ const useStore = createWithEqualityFn((set, get) => ({
     } catch (err) {
       console.log('err', err);
     }
-  },
-
-  addCyberNode: (newNode) => {
-    // console.log('newNode', newNode);
-    set((state) => ({
-      cyberNodes: [...state.cyberNodes, newNode]
-    }));
   },
 
   //Delete Section
